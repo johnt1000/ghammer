@@ -18,9 +18,12 @@ If you have problems, questions, ideas or suggestions, please contact Jônatas R
 - Jefferson Cunha - <jeffersonfilho@gmail.com>
 
 
+***
+
+
 ## PT-BR
 ### Introdução
-GHammer é uma ferramenta forense para análise de vulnerabilidades em aplicaçãos web usando a técnica de Google Hacking. Essa ferramenta foi criar a partir da pesquisa para o trabalho de conclusão de pós graduação do curso de Computação Forense, ministrado entre os anos de 2015 e 2016, pela Universidade Potiguar (UnP).
+GHammer é uma ferramenta forense para análise de vulnerabilidades em aplicações web usando a técnica de Google Hacking. Essa ferramenta foi criar a partir da pesquisa para o trabalho de conclusão de pós graduação do curso de Computação Forense, ministrado entre os anos de 2015 e 2016, pela Universidade Potiguar (UnP).
 
 ### Autor
 O autor do projeto é o aluno Jônatas Rodrigues, sendo orientado pelo Professor Jefferson Cunha.
