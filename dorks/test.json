@@ -1,0 +1,10 @@
+{
+	"title": "Title",
+	"description": "Description",
+	"category": "General",
+	"author": "Author",
+	"version": 1.0,
+	"dork": [{
+		"expression": "sando ixi ixii ixiiii"
+	}]
+}
