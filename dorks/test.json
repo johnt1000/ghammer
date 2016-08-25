@@ -5,6 +5,10 @@
 	"author": "Author",
 	"version": 1.0,
 	"dork": [{
-		"expression": "sando ixi ixii ixiiii"
+		"type": "text",
+		"value": "sando ixi ixii ixiiii",
+		"supress":  "katchup",
+		"suppress":  "katchup",
+		"synonyms":  "sanduíche"
 	}]
 }
