@@ -4,11 +4,20 @@
 	"category": "General",
 	"author": "Author",
 	"version": 1.0,
+	"deprecated": false,
 	"dork": [{
-		"type": "text",
-		"value": "sando ixi ixii ixiiii",
-		"supress":  "katchup",
-		"suppress":  "katchup",
-		"synonyms":  "sanduíche"
-	}]
+			"type": "text",
+			"value": "sando ixi ixii ixiiii",
+			"quoted": true,
+			"suppress":  "ketchup",
+			"synonyms":  "sanduíche"
+		},
+		{
+			"type": "intitle",
+			"value": "entrevista",
+			"quoted": false,
+			"suppress":  null,
+			"synonyms":  null
+		}
+	]
 }

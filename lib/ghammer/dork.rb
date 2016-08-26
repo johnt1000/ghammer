@@ -5,14 +5,16 @@ class Dork
 	attr_accessor :category
 	attr_accessor :author
 	attr_accessor :version
+	attr_accessor :deprecated
 	attr_accessor :dork
 
 	def initialized
-		@title = nil
-		@description = nil
-		@category = nil
-		@author = nil
-		@version = nil
-		@dork = []
+		self.title = nil
+		self.description = nil
+		self.category = nil
+		self.author = nil
+		self.version = 0
+		self.deprecated = false
+		self.dork = []
 	end
 end
