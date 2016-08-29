@@ -35,15 +35,15 @@ class Dork
 			when 'text'
 				str.concat(" #{e.value}") if e.quoted == false
 				str.concat(" \"#{e.value}\"") if e.quoted == true
-			when 'intitle'
-				str.concat(" intitle:#{e.value}") if e.quoted == false
-				str.concat(" intitle:\"#{e.value}\"") if e.quoted == true
-			when 'ext'
-				str.concat(" ext:#{e.value}") if e.quoted == false
-				str.concat(" ext:\"#{e.value}\"") if e.quoted == true
+			#when 'intitle'
+			#	str.concat(" intitle:#{e.value}") if e.quoted == false
+			#	str.concat(" intitle:\"#{e.value}\"") if e.quoted == true
+			#when 'ext'
+			#	str.concat(" ext:#{e.value}") if e.quoted == false
+			#	str.concat(" ext:\"#{e.value}\"") if e.quoted == true
 			else
-				str.concat(" #{e.value}") if e.quoted == false
-				str.concat(" \"#{e.value}\"") if e.quoted == true
+				str.concat(" #{e.type}:#{e.value}") if e.quoted == false
+				str.concat(" #{e.type}:\"#{e.value}\"") if e.quoted == true
 			end
 
 			unless e.suppress.nil?

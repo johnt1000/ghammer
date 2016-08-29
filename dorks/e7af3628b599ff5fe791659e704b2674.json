@@ -1,0 +1,17 @@
+{
+	"title": "Check files sql in site",
+	"description": "Check files sql in site",
+	"category": "database",
+	"category_child": "Files containing database info",
+	"author": "Jônatas Rodrigues",
+	"version": 1.0,
+	"deprecated": false,
+	"expr": [{
+			"type": "ext",
+			"value": "sql",
+			"quoted": false,
+			"suppress":  null,
+			"synonyms":  null
+		}
+	]
+}
