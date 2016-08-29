@@ -6,26 +6,28 @@ class Dork
 	attr_accessor :author
 	attr_accessor :version
 	attr_accessor :deprecated
-	attr_accessor :expr
+  attr_accessor :expr
 
-	def initialized
-		self.title = nil
-		self.description = nil
-		self.category = nil
-		self.author = nil
-		self.version = 0
-		self.deprecated = false
+	def initialize(options = {})
+    self.title = options.fetch(:title, nil)
+    self.description = options.fetch(:description, nil)
+    self.category = options.fetch(:category, nil)
+    self.author = options.fetch(:author, nil)
+    self.version = options.fetch(:version, 0)
+    self.deprecated = options.fetch(:deprecated, false)
+    self.add_expr(options.fetch(:expr, []))
 	end
 
-	def add_expr(expr)
-		if self.expr.nil?
-			self.expr = Array.new
-		end
-		self.expr.push(expr)
-	end
+  def add_expr(exprs = [])
+    if self.expr.nil?
+      self.expr =  []
+    end
+    exprs.each do |expr|
+      self.expr.push(Expr.new(expr))
+    end
+  end
 
 	def to_s
-		
 		str = String.new
 
 		self.expr.each do |e|
@@ -36,6 +38,9 @@ class Dork
 			when 'intitle'
 				str.concat(" intitle:#{e.value}") if e.quoted == false
 				str.concat(" intitle:\"#{e.value}\"") if e.quoted == true
+			when 'ext'
+				str.concat(" ext:#{e.value}") if e.quoted == false
+				str.concat(" ext:\"#{e.value}\"") if e.quoted == true
 			else
 				str.concat(" #{e.value}") if e.quoted == false
 				str.concat(" \"#{e.value}\"") if e.quoted == true
@@ -50,6 +55,6 @@ class Dork
 			end
 		end
 
-		return str
+		return str.strip
 	end
 end

@@ -16,13 +16,14 @@ describe Expr  do
 
 	describe "checking parameters" do
 		it "starting and checking parameters." do
-			
-			e = Expr.new
-			e.type = 'text'
-			e.value = 'sando ixi ixii ixiiii'
-			e.quoted = true
-			e.suppress = 'ketchup'
-			e.synonyms = 'sanduíche'
+			opts = {
+        type: 'text',
+        value: 'sando ixi ixii ixiiii',
+        quoted: true,
+        suppress: 'ketchup',
+        synonyms: 'sanduíche'
+      }
+			e = Expr.new(opts)
 
 			expect(e.type).to match(/text/)
 			expect(e.value).to match(/sando ixi ixii ixiiii/)

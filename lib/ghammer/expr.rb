@@ -5,7 +5,11 @@ class Expr
 	attr_accessor :suppress
 	attr_accessor :synonyms
 
-	def initialize
-		self.quoted = false
+	def initialize(options = {})
+    self.type = options.fetch(:type, nil)
+    self.value = options.fetch(:value, nil)
+    self.quoted = options.fetch(:quoted, false)
+    self.suppress = options.fetch(:suppress, nil)
+    self.synonyms = options.fetch(:synonyms, nil)
 	end
 end

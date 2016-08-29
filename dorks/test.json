@@ -5,9 +5,9 @@
 	"author": "Author",
 	"version": 1.0,
 	"deprecated": false,
-	"dork": [{
+	"expr": [{
 			"type": "text",
-			"value": "sando ixi ixii ixiiii",
+			"value": "sanduíche",
 			"quoted": true,
 			"suppress":  "ketchup",
 			"synonyms":  "sanduíche"

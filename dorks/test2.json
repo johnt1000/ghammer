@@ -1,0 +1,23 @@
+{
+	"title": "Mail list",
+	"description": "Checks for list of available emails.",
+	"category": "Email",
+	"author": "John",
+	"version": 1.0,
+	"deprecated": false,
+	"expr": [{
+			"type": "text",
+			"value": "mail",
+			"quoted": true,
+			"suppress":  null,
+			"synonyms":  null
+		},
+		{
+			"type": "ext",
+			"value": "xls",
+			"quoted": false,
+			"suppress":  null,
+			"synonyms":  null
+		}
+	]
+}
