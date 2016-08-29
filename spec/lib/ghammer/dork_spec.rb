@@ -23,6 +23,7 @@ describe Dork  do
         title: 'Title',
         description: 'Description',
         category: 'General',
+        category_child: 'General Child',
         author: 'Author',
         version: 1.0,
         deprecated: false,
@@ -33,6 +34,7 @@ describe Dork  do
 			expect(dk.title).to match(/Title/)
 			expect(dk.description).to match(/Description/)
 			expect(dk.category).to match(/General/)
+			expect(dk.category_child).to match(/General Child/)
 			expect(dk.author).to match(/Author/)
 			expect(dk.version).to eq(1.0)
 			expect(dk.deprecated).to be false

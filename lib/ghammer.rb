@@ -1,7 +1,6 @@
 # $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib", "ghammer", "*")
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "ghammer")
 
-#require 'ghammer/g_string'
 require 'json'
 require 'expr'
 require 'dork'

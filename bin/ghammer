@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
+
+require "thor"
+require "ghammer"
+
+class GhammerCLI < Thor
+  desc "target URL", "Shoot all dorks in the target URL."
+  def target(url)
+  	gh = Ghammer.new(url)
+    gh.loading_dorks
+
+    gh.dorks.each do |dork|
+    	system "#{File.dirname(__FILE__)}/gggooglescan -l #{File.dirname(__FILE__)}/#{dork.md5}.log site:#{gh.site} #{dork}"
+    end
+  end
+end
+
+GhammerCLI.start(ARGV)
