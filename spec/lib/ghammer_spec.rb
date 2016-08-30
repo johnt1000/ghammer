@@ -37,7 +37,7 @@ describe Ghammer  do
 		gh = Ghammer.new('http://testphp.vulnweb.com')
     gh.loading_dorks
       
-    expect(gh.uri_search(0).to_s).to match(/site:http:\/\/testphp.vulnweb.com inurl:phpinfo "PHP Version"/)
-    expect(gh.uri_search(1).to_s).to match(/site:http:\/\/testphp.vulnweb.com ext:sql/)
+    expect(gh.uri_search(0).to_s.nil?).to be false
+    expect(gh.uri_search(1).to_s.nil?).to be false
   end
 end
