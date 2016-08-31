@@ -5,6 +5,7 @@ source "https://rubygems.org"
 
 gem 'json'
 gem 'thor'
+gem 'curb'
 
 group :development do
 	gem 'rspec'
