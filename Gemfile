@@ -6,6 +6,7 @@ source "https://rubygems.org"
 gem 'json'
 gem 'thor'
 gem 'curb'
+gem 'terminal-table'
 
 group :development do
 	gem 'rspec'
