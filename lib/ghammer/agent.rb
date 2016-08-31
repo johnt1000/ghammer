@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Agent
 	attr_accessor :browser
 	attr_accessor :os

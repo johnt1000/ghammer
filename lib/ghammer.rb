@@ -1,15 +1,18 @@
-# $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib", "ghammer", "*")
+# encoding: UTF-8
+
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "ghammer")
 
 require 'json'
 require 'uri'
 require 'expr'
 require 'dork'
-require 'search'
 require 'agent'
 require 'referer'
 require 'domain'
 require 'tool'
+require 'proxy'
+require 'query'
+require 'search'
 
 class Ghammer
   
@@ -22,6 +25,7 @@ class Ghammer
 	end
   
   def loading_dorks
+    # TODO colocar em arquivo de configuração o valor padrão
     Dir[File.dirname(__FILE__) + '/../dorks/*.json'].each do |file|
       obj_file = File.read(file)
       
@@ -33,7 +37,14 @@ class Ghammer
       self.searchs.push(search)
     end
   end
-  
+
+  def run
+    self.searchs.each do |search|
+      puts search.to_s
+      search.run
+    end
+  end
+
   def uri_search(index)
     "#{self.searchs[index]}"
   end

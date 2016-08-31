@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Referer
 	attr_accessor :domain
 	attr_accessor :tld

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Expr
 	attr_accessor :type
 	attr_accessor :value
