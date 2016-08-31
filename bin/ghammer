@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
+
+require "rubygems"
+require "thor"
+require 'curb'
+require 'terminal-table'
+require "ghammer"
+
+class CLI < Thor
+  desc "target URL", "Shoot all dorks in the target URL."
+  def target(url)
+    gh = Ghammer.new(url)
+    gh.loading_dorks
+    
+    agent = Agent.new
+    referer = Referer.new
+    
+    gh.searchs.each do |search|
+      puts search.to_s
+      curl = Curl::Easy.new(search.to_s)
+      curl.headers["User-Agent"] = agent.to_s
+      curl.headers["Referer"] = referer.to_s
+      # curl.verbose = true
+      curl.perform
+      
+      output = File.open( "#{search.dork.md5}.html","w" )
+      output << curl.body_str
+      output.close
+      
+      # Curl::Easy.perform(search.dork.to_s) do |curl|
+      #   curl.headers["User-Agent"] = "myapp-0.0"
+      #   curl.verbose = true
+      # end
+    end
+  end
+
+  desc "my_ip", "Show my IP."
+  def my_ip
+    t = Tool.new
+    t.my_ip
+  end
+
+  option :install, :aliases => "-i", :desc => "Install dependencies."
+  desc "requirements", "requirements."
+  def requirements
+    t = Tool.new
+    rows = []
+
+    t.curl_install if options[:install]
+
+    if t.curl_installed?
+      rows << ['Curl', 'Installed']
+    else
+      rows << ['Curl', 'NotInstalled']
+    end
+    
+    puts "\n"
+    puts Terminal::Table.new :title => "Dependency Table", :headings => ['Dependency', 'Status'], :rows => rows
+    puts "\n"
+    puts "Install requirements usando -i."
+    puts "\n"
+    
+  end
+end
+
+CLI.start(ARGV)
