@@ -1,0 +1,25 @@
+{
+	"title": "PHP Info",
+	"description": "Page PHP containing info server.",
+	"category": "Server",
+	"category_child": "Pages containing info server",
+	"author": "Jônatas Rodrigues",
+	"md5": "9e44f50b6a5f1beab603a16bb6205358",
+	"version": 1.0,
+	"deprecated": false,
+	"expr": [{
+			"type": "inurl",
+			"value": "phpinfo",
+			"quoted": false,
+			"suppress":  null,
+			"synonyms":  null
+		},
+		{
+			"type": "text",
+			"value": "PHP Version",
+			"quoted": true,
+			"suppress":  null,
+			"synonyms":  null
+		}
+	]
+}

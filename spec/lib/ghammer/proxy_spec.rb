@@ -15,7 +15,6 @@ describe Proxy  do
 
 	it "#to_s" do
 		p = Proxy.new
-
 		expect(p.to_s).to match 'http://localhost:9050'
 	end
 end

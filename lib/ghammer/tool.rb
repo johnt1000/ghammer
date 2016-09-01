@@ -1,15 +1,11 @@
 # encoding: UTF-8
 
 class Tool
-  def my_ip
-    c = Curl::Easy.perform("https://api.ipify.org")
-    puts c.body_str
-  end
-  
-  def my_ip_tor
-    q = Query.new("https://api.ipify.org", { proxy: true })
+  def my_ip(options = {})
+    proxy = options.fetch(:proxy, false)
+    q = Query.new("https://api.ipify.org", { proxy: proxy })
     q.run
-    puts q.result
+    q.result
   end
 
   def curl_installed?
@@ -36,5 +32,10 @@ class Tool
 
   def tor_running?
     system("pidof tor > /dev/null")
+  end
+
+  def tor_renew
+    system("[ -z 'pidof tor' ] || pidof tor | xargs sudo kill -HUP;")
+    sleep 1
   end
 end

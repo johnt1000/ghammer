@@ -9,12 +9,15 @@ require 'terminal-table'
 require "ghammer"
 
 class CLI < Thor
-  option :tor, :aliases => "-t", :desc => "Usa porxy Tor."
+  option :tor, :aliases => "-t", :desc => "Usa proxy Tor."
   desc "target <URL>", "Shoot all dorks in the target URL."
   def target(url)
-    puts "sss"
     gh = Ghammer.new(url)
-    gh.proxy = true if options[:tor]
+    # TODO colocar em arquivo de configuração o valor padrão
+    # TODO criar um else com a opção padrão
+    if options[:tor]
+      gh.proxy = true
+    end
     gh.run
   end
 
@@ -23,10 +26,11 @@ class CLI < Thor
   def my_ip
     t = Tool.new
     unless options[:tor]
-      t.my_ip
+      ip = t.my_ip
     else
-      t.my_ip_tor
+      ip = t.my_ip({proxy: true})
     end
+    puts ip
   end
 
   option :install, :aliases => "-i", :desc => "Install dependencies."
