@@ -4,34 +4,24 @@ class Search
 	attr_accessor :site
 	attr_accessor :domain
 	attr_accessor :dork
+  attr_accessor :proxy
 	attr_accessor :num_result
 
-	def initialize(site)
+	def initialize(site, options = {})
+    self.proxy = options.fetch(:proxy, false)
+     
 		self.site = site
 		self.domain = Domain.new
 		self.num_result = 1500
 	end
 
-	def uri_dork
-		unless dork.nil?
-			str = "site:#{self.site} #{self.dork}".gsub(' ', '+')
-			URI.escape(str)
-		end
+	def uri
+		uri = URI.escape("site:#{self.site}")
+		"#{uri}+#{self.dork.uri}"
 	end
 
 	def run
-		# agent / referer
-		#agent = Agent.new
-    #referer = Referer.new
-
-		#curl = Curl::Easy.new(self.to_s)
-    #curl.headers["User-Agent"] = agent.to_s
-    #curl.headers["Referer"] = referer.to_s
-    # curl.verbose = true
-    #curl.perform
-
-    q = Query.new(self.to_s)
-    q.run
+    q = Query.new(self.to_s, { proxy: self.proxy })
     self.save_result(q.result)
 	end
 
@@ -44,6 +34,6 @@ class Search
 	end
 
 	def to_s
-		"#{self.domain}/search?q=#{self.uri_dork}&num=#{self.num_result}btnG=Search&pws=1"
+		"#{self.domain}/search?q=#{self.uri}&num=#{self.num_result}btnG=Search&pws=1"
 	end
 end

@@ -32,7 +32,12 @@ class Dork
       self.expr.push(Expr.new(expr))
     end
   end
-
+  
+  def uri
+		str = self.to_s.gsub(' ', '+')
+		URI.escape(str)
+  end
+  
 	def to_s
 		str = String.new
 

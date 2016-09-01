@@ -17,14 +17,16 @@ require 'search'
 class Ghammer
   
   attr_accessor :site
+  attr_accessor :proxy
   attr_accessor :searchs
   
-	def initialize(site)
+	def initialize(site, options = {})
+    self.proxy = options.fetch(:proxy, false)
     self.site = site
     self.searchs = []
 	end
   
-  def loading_dorks
+  def loading
     # TODO colocar em arquivo de configuração o valor padrão
     Dir[File.dirname(__FILE__) + '/../dorks/*.json'].each do |file|
       obj_file = File.read(file)
@@ -39,13 +41,10 @@ class Ghammer
   end
 
   def run
+    self.loading
     self.searchs.each do |search|
       puts search.to_s
       search.run
     end
-  end
-
-  def uri_search(index)
-    "#{self.searchs[index]}"
   end
 end

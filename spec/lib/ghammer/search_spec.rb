@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require "spec_helper"
 require "./lib/ghammer/agent"
 require "./lib/ghammer/referer"
@@ -18,7 +20,7 @@ describe Search  do
 		end
 	end
 
-	it "#uri_dork" do
+	it "#uri" do
 		expr1 = {
       type: 'text',
       value: 'sando ixi ixii ixiiii',
@@ -43,7 +45,7 @@ describe Search  do
 		s = Search.new('http://testphp.vulnweb.com')
 		s.dork = dk
 
-		expect(s.uri_dork).to match "site:http://testphp.vulnweb.com+%22sando+ixi+ixii+ixiiii%22+-ketchup+~sandu%C3%ADche+intitle:entrevista"
+		expect(s.uri).to match "site:http://testphp.vulnweb.com+%22sando+ixi+ixii+ixiiii%22+-ketchup+~sandu%C3%ADche+intitle:entrevista"
 	end
 	
 	it "#to_s" do

@@ -9,11 +9,13 @@ require 'terminal-table'
 require "ghammer"
 
 class CLI < Thor
+  option :tor, :aliases => "-t", :desc => "Usa porxy Tor."
   desc "target <URL>", "Shoot all dorks in the target URL."
   def target(url)
+    puts "sss"
     gh = Ghammer.new(url)
-    gh.loading_dorks
-    gh.run_dorks
+    gh.proxy = true if options[:tor]
+    gh.run
   end
 
   option :tor, :aliases => "-t", :desc => "Show my IP Tor."

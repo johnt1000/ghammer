@@ -7,8 +7,7 @@ class Tool
   end
   
   def my_ip_tor
-    q = Query.new("https://api.ipify.org", true)
-    #puts q.to_s
+    q = Query.new("https://api.ipify.org", { proxy: true })
     q.run
     puts q.result
   end

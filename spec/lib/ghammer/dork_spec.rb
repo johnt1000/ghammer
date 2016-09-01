@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require "spec_helper"
 require "./lib/ghammer/dork"
 require "./lib/ghammer/expr"
@@ -78,31 +80,55 @@ describe Dork  do
 		end
 	end
 
-	describe "#to_s" do
-		it "return string." do
-			expr1 = {
-        type: 'text',
-        value: 'sando ixi ixii ixiiii',
-        quoted: true,
-        suppress: 'ketchup',
-        synonyms: 'sanduíche'
-      }
-			expr2 = {
-        type: 'intitle',
-        value: 'entrevista'
-      }
-      opts = {
-        title: 'Title',
-        description: 'Description',
-        category: 'General',
-        author: 'Author',
-        version: 1.0,
-        deprecated: false,
-        expr: [expr1,expr2]
-      }
-			dk = Dork.new opts
+	it "#uri" do
+		expr1 = {
+      type: 'text',
+      value: 'sando ixi ixii ixiiii',
+      quoted: true,
+      suppress: 'ketchup',
+      synonyms: 'sanduíche'
+    }
+		expr2 = {
+      type: 'intitle',
+      value: 'entrevista'
+    }
+    opts = {
+      title: 'Title',
+      description: 'Description',
+      category: 'General',
+      author: 'Author',
+      version: 1.0,
+      deprecated: false,
+      expr: [expr1,expr2]
+    }
+		dk = Dork.new opts
 
-			expect(dk.to_s).to match(/"sando ixi ixii ixiiii" -ketchup ~sanduíche intitle:entrevista/)
-		end
+		expect(dk.uri).to match("%22sando+ixi+ixii+ixiiii%22+-ketchup+~sandu%C3%ADche+intitle:entrevista")
+	end
+  
+	it "#to_s" do
+		expr1 = {
+      type: 'text',
+      value: 'sando ixi ixii ixiiii',
+      quoted: true,
+      suppress: 'ketchup',
+      synonyms: 'sanduíche'
+    }
+		expr2 = {
+      type: 'intitle',
+      value: 'entrevista'
+    }
+    opts = {
+      title: 'Title',
+      description: 'Description',
+      category: 'General',
+      author: 'Author',
+      version: 1.0,
+      deprecated: false,
+      expr: [expr1,expr2]
+    }
+		dk = Dork.new opts
+
+		expect(dk.to_s).to match(/"sando ixi ixii ixiiii" -ketchup ~sanduíche intitle:entrevista/)
 	end
 end

@@ -3,43 +3,31 @@
 class Query
 	attr_accessor :cmd
 	attr_accessor :result
+  attr_accessor :proxy
 
-	def initialize(url, proxy = false)
-		#c = Curl::Easy.new(self.to_s)
-		#c.headers["User-Agent"] = Agent.new().to_s
-    #c.headers["Referer"] = Referer.new().to_s
-    #c.verbose = true
-
-    #if proxy == true
-    #	p = Proxy.new()
-    #	c.proxy_url = p.hostname.to_s
-    #	c.proxy_type = Curl::CURLPROXY_SOCKS5
-    #	c.proxy_port = p.port.to_i
-  	#end
-
-  	cmd = '/usr/bin/curl'
-  	cmd.concat " --user-agent \"#{Agent.new().to_s}\" --referer #{Referer.new().to_s}"
-  	cmd.concat " --socks5 #{Proxy.new().to_s}" if proxy == true
-  	cmd.concat " #{url} > "
-
-		self.cmd = cmd
+	def initialize(url, options = {})
+		cmd = Curl::Easy.new(url)
+    cmd.headers["User-Agent"] = Agent.new().to_s
+    cmd.headers["Referer"] = Referer.new().to_s
+    # cmd.verbose = true
+    self.cmd = cmd
+    
+    self.proxy = options.fetch(:proxy, false)
 	end
 
 	def run
-		#self.curl.perform
-		stdop = system(self.cmd)
-    result = $?
-    puts "+++++++++++++++++"
-    puts stdop
-    puts "+++++++++++++++++"
+    if self.proxy == true
+      p = Proxy.new()
+      self.cmd.proxy_url = p.hostname
+      self.cmd.proxy_type = Curl::CURLPROXY_SOCKS5
+      self.cmd.proxy_tunnel = true
+      self.cmd.proxy_port = p.port.to_i
+    end
+		self.cmd.perform
 	end
 
 	def result
-		#self.curl.body_str
-		self.result
-	end
-
-	def to_s
-		cmd
+    self.run
+		self.cmd.body_str
 	end
 end

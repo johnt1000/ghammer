@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require "spec_helper"
 require "./lib/ghammer/tool"
 
@@ -9,19 +11,19 @@ describe Search  do
 		end
 	end
 
-	#describe "#tor_installed?" do
-	#	it "true" do
-	#		t = Tool.new
-	#		expect(t.tor_installed?).to be true
-	#	end
-	#end
+  describe "#tor_installed?" do
+    it "true" do
+      t = Tool.new
+      expect(t.tor_installed?).to be true
+    end
+  end
 
-	it "#curl_install" do
-		t = Tool.new
-		t.curl_install
-
-		expect(t.curl_installed?).to be true
-	end
+  # it "#curl_install" do
+  #   t = Tool.new
+  #   t.curl_install
+  #
+  #   expect(t.curl_installed?).to be true
+  # end
 
 	#it "#tor_install" do
 	#	t = Tool.new
