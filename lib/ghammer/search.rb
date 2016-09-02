@@ -7,12 +7,14 @@ class Search
   attr_accessor :proxy
 	attr_accessor :num_result
 	attr_accessor :query
+	attr_accessor :output_directory
 
 	def initialize(site, options = {})
     self.proxy = options.fetch(:proxy, false)
 		self.site = site
 		self.domain = Domain.new
 		# TODO colocar em arquivo de configuração o valor padrão
+		self.output_directory = options.fetch(:output_directory, 'output')
 		self.num_result = 1500
 	end
 
@@ -21,15 +23,10 @@ class Search
     self.query.run
 	end
 
-	def save(options = {})
-		#dir_output = File.join(Dir.home, ".output")
-		#Dir.mkdir(dir_output, 0700) unless File.exists?(dir_output)
+	def save
+		Dir.mkdir(self.output_directory, 0700) unless Dir.exist?(self.output_directory)
 
-		# TODO colocar em arquivo de configuração o valor padrão
-		path = options.fetch(:path, '.')
-		path.concat '/output/'
-
-		output = File.open( "#{path}#{self.dork.md5}.html","w" )
+		output = File.open( "#{self.output_directory}/#{self.dork.md5}.html","w" )
     output << self.query.result
     output.close
 	end

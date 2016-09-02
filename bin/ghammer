@@ -10,7 +10,7 @@ require "ghammer"
 
 class CLI < Thor
   option :tor, :aliases => "-t", :desc => "Usa proxy Tor."
-  desc "target <URL>", "Shoot all dorks in the target URL."
+  desc "target <URL> <OUTPUT_DIRECTORY>", "Shoot all dorks in the target URL."
   def target(url)
     gh = Ghammer.new(url)
     # TODO colocar em arquivo de configuração o valor padrão

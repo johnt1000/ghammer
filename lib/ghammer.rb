@@ -19,12 +19,14 @@ class Ghammer
   attr_accessor :site
   attr_accessor :proxy
   attr_accessor :proxy_renew
+  attr_accessor :output_directory
   attr_accessor :searchs
   
 	def initialize(site, options = {})
     # TODO colocar em arquivo de configuração o valor padrão
     self.proxy = options.fetch(:proxy, false)
     self.proxy_renew = options.fetch(:proxy, true)
+    self.output_directory = options.fetch(:output_directory, 'output')
     self.site = site
     self.searchs = []
 	end
@@ -37,7 +39,7 @@ class Ghammer
       json = JSON.parse(obj_file, { symbolize_names: true })
       dork = Dork.new(json)
 
-      search = Search.new(self.site, { proxy: self.proxy })
+      search = Search.new(self.site, { proxy: self.proxy, output_directory: self.output_directory })
       search.dork = dork
       self.searchs.push(search)
     end
