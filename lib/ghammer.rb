@@ -4,6 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "ghammer")
 
 require 'json'
 require 'uri'
+require 'curb'
 require 'expr'
 require 'dork'
 require 'agent'
@@ -13,6 +14,7 @@ require 'tool'
 require 'proxy'
 require 'query'
 require 'search'
+require 'parseconfig'
 
 class Ghammer
   

@@ -7,6 +7,7 @@ gem 'json'
 gem 'thor'
 gem 'curb'
 gem 'terminal-table'
+gem 'parseconfig'
 
 group :development do
 	gem 'rspec'

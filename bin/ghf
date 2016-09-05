@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
+
+require "rubygems"
+require "thor"
+require 'terminal-table'
+require "ghammer/banner"
+require "ghammer"
+
+puts Banner.new.banner
+
+module GHFCLI
+  class GHFDork < Thor
+    option :tor, :aliases => "-t", :desc => "Usa proxy Tor."
+    desc "target <URL> <OUTPUT_DIRECTORY>", "Shoot all dorks in the target URL."
+    def target(url)
+      gh = Ghammer.new(url)
+      # TODO colocar em arquivo de configuração o valor padrão
+      # TODO criar um else com a opção padrão
+      if options[:tor]
+        gh.proxy = true
+      end
+      gh.run
+    end
+  end
+  
+  class GHF < Thor
+    class_option :verbose, :type => :boolean, :aliases => "-v"
+    
+    desc "dork SUBCOMMAND ...ARGS", "gerencia dorks"
+    subcommand "dork", GHFDork
+  end
+end
+
+GHFCLI::GHF.start(ARGV)
+
+# class MyCLI < Thor
+#   class_option :verbose, :type => :boolean
+#
+#
+#   desc "hello NAME", "say hello to NAME"
+#   long_desc <<-LONGDESC
+#
+#   LONGDESC
+#   options :from => :required, :yell => :boolean
+#   def hello(name)
+#     puts "> saying hello" if options[:verbose]
+#     output = []
+#     output << "from: #{options[:from]}" if options[:from]
+#     output << "Hello #{name}"
+#     output = output.join("\n")
+#     puts options[:yell] ? output.upcase : output
+#     puts "> done saying hello" if options[:verbose]
+#   end
+#
+#   desc "goodbye", "say goodbye to the world"
+#   def goodbye
+#     puts "> saying goodbye" if options[:verbose]
+#     puts "Goodbye World"
+#     puts "> done saying goodbye" if options[:verbose]
+#   end
+# end
