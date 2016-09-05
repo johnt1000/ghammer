@@ -7,8 +7,6 @@ class Domain
 	def initialize
     self.url = get_url
     # TODO colocar em arquivo de configuração o valor padrão
-    config = ParseConfig.new('./../config/production.conf')
-    puts config
     self.protocol = 'https'
 	end
 

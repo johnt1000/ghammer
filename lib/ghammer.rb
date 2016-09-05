@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "ghammer")
 require 'json'
 require 'uri'
 require 'curb'
+require 'config'
 require 'expr'
 require 'dork'
 require 'agent'
@@ -14,34 +15,37 @@ require 'tool'
 require 'proxy'
 require 'query'
 require 'search'
-require 'parseconfig'
 
 class Ghammer
   
-  attr_accessor :site
+  attr_accessor :hostname
   attr_accessor :proxy
   attr_accessor :proxy_renew
   attr_accessor :output_directory
+  attr_accessor :dork_directory
   attr_accessor :searchs
+  attr_accessor :config
   
-	def initialize(site, options = {})
-    # TODO colocar em arquivo de configuração o valor padrão
-    self.proxy = options.fetch(:proxy, false)
-    self.proxy_renew = options.fetch(:proxy, true)
-    self.output_directory = options.fetch(:output_directory, 'output')
-    self.site = site
+	def initialize(options = {})
+    self.config = Config.new
+    self.config.loading
+
+    self.proxy = options.fetch(:proxy, self.config.params["proxy"]["use"])
+    self.proxy_renew = options.fetch(:proxy, self.config.params["proxy"]["renew"])
+    self.output_directory = options.fetch(:output_directory, self.config.params["output"]["directory"])
+    self.dork_directory = options.fetch(:dork_directory, self.config.params["dork"]["directory"])
+    self.hostname = options.fetch(:hostname, nil)
     self.searchs = []
 	end
   
   def loading
-    # TODO colocar em arquivo de configuração o valor padrão
-    Dir[File.dirname(__FILE__) + '/../dorks/*.json'].each do |file|
+    Dir["#{File.dirname(__FILE__)}/#{self.dork_directory}/*.json"].each do |file|
       obj_file = File.read(file)
       
       json = JSON.parse(obj_file, { symbolize_names: true })
       dork = Dork.new(json)
 
-      search = Search.new(self.site, { proxy: self.proxy, output_directory: self.output_directory })
+      search = Search.new(self.hostname, { proxy: self.proxy, output_directory: self.output_directory })
       search.dork = dork
       self.searchs.push(search)
     end
@@ -115,5 +119,20 @@ class Ghammer
     #  
     #  search.run
     #end
+  end
+
+  def dork_list
+    dorks = []
+    Dir["#{File.dirname(__FILE__)}/#{self.dork_directory}/*.json"].each do |file|
+      obj_file = File.read(file)
+      obj_file.inspect
+      
+      json = JSON.parse(obj_file, { symbolize_names: true })
+      dork = Dork.new(json)
+
+      dorks.push(dork)
+    end
+
+    return dorks
   end
 end

@@ -1,0 +1,7 @@
+dork:
+  directory: ./../dorks
+proxy:
+  use: false
+  renew: true
+output:
+  directory: 'output'

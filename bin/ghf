@@ -1,63 +1,103 @@
 #!/usr/bin/env ruby
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib", "config")
 
 require "rubygems"
 require "thor"
 require 'terminal-table'
+require 'yaml'
 require "ghammer/banner"
 require "ghammer"
 
 puts Banner.new.banner
 
 module GHFCLI
-  class GHFDork < Thor
-    option :tor, :aliases => "-t", :desc => "Usa proxy Tor."
-    desc "target <URL> <OUTPUT_DIRECTORY>", "Shoot all dorks in the target URL."
-    def target(url)
-      gh = Ghammer.new(url)
-      # TODO colocar em arquivo de configuração o valor padrão
-      # TODO criar um else com a opção padrão
-      if options[:tor]
-        gh.proxy = true
+  class Dork < Thor
+    desc "ls", "Lista todos os dorks."
+    def ls()
+      gh = Ghammer.new
+      dorks = gh.dork_list
+
+      rows = []
+      dorks.each do |d|
+        rows << [d.title, d.to_s]
+        rows << :separator
       end
+
+      puts "\n"
+      puts Terminal::Table.new :title => "Dork List", :headings => ['Title', 'Dork'], :rows => rows
+      puts "\n"
+
+    end
+  end
+
+  class Search < Thor
+    desc "target <hostname>", "Efetua busca no <hostname>."
+    option :output, type: :string, aliases: '-o', :desc => "Diretorio de saida."
+    option :proxy, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
+    def target(hostname)
+      gh = Ghammer.new({ hostname: hostname } )
+      gh.proxy = true if options[:proxy]
+      gh.output_directory = options[:output] if options[:output]
       gh.run
+    end
+  end
+
+  class Tools < Thor
+    desc "my_ip", "Retorna meu IP."
+    option :proxy, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
+    def my_ip
+      puts "\nConsultando IP. Aguarde..."
+      t = Tool.new
+      unless options[:proxy]
+        str = "\s\sSeu IP atual é #{t.my_ip}."
+      else
+        str = "\s\sSeu IP atual na rede Tor é #{t.my_ip({proxy: true})}."
+      end
+      puts "#{str}\n\n"
+    end
+  end
+
+  class Requirements < Thor
+    desc "check", "Verifica requsitos."
+    def check
+      puts "Verificando requsitos. Aguarde..."
+      t = Tool.new
+      rows = []
+      if t.curl_installed?
+        rows << ['Curl', 'Installed']
+      else
+        rows << ['Curl', 'Not Installed']
+      end
+      
+      if t.tor_installed?
+        rows << ['Tor', 'Installed']
+      else
+        rows << ['Tor', 'Not Installed']
+      end
+
+      puts "\n"
+      puts Terminal::Table.new :title => "Dependency Table", :headings => ['Dependency', 'Status'], :rows => rows
+      puts "\n"
     end
   end
   
   class GHF < Thor
     class_option :verbose, :type => :boolean, :aliases => "-v"
     
-    desc "dork SUBCOMMAND ...ARGS", "gerencia dorks"
-    subcommand "dork", GHFDork
+    desc "dork SUBCOMMAND", "gerencia dorks"
+    subcommand "dork", Dork
+
+    desc "search SUBCOMMAND", "gerencia buscas"
+    subcommand "search", Search
+
+    desc "tools SUBCOMMAND", "ferramentas"
+    subcommand "tools", Tools
+
+    desc "requirements SUBCOMMAND", "Requisitos"
+    subcommand "requirements", Requirements
   end
 end
 
 GHFCLI::GHF.start(ARGV)
-
-# class MyCLI < Thor
-#   class_option :verbose, :type => :boolean
-#
-#
-#   desc "hello NAME", "say hello to NAME"
-#   long_desc <<-LONGDESC
-#
-#   LONGDESC
-#   options :from => :required, :yell => :boolean
-#   def hello(name)
-#     puts "> saying hello" if options[:verbose]
-#     output = []
-#     output << "from: #{options[:from]}" if options[:from]
-#     output << "Hello #{name}"
-#     output = output.join("\n")
-#     puts options[:yell] ? output.upcase : output
-#     puts "> done saying hello" if options[:verbose]
-#   end
-#
-#   desc "goodbye", "say goodbye to the world"
-#   def goodbye
-#     puts "> saying goodbye" if options[:verbose]
-#     puts "Goodbye World"
-#     puts "> done saying goodbye" if options[:verbose]
-#   end
-# end
