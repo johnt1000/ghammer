@@ -6,15 +6,19 @@ require "./lib/ghammer/proxy"
 
 describe Proxy  do
 	it "#initialize" do
-		p = Proxy.new
+		proxy = Proxy.new({hostname: 'http://localhost', port: 9050})
 
-		expect(p.hostname).to match 'http://localhost'
-		expect(p.port).to eq 9050
-		expect(p.status).to be true
+		expect(proxy.hostname).to match 'http://localhost'
+		expect(proxy.port).to eq 9050
 	end
 
 	it "#to_s" do
-		p = Proxy.new
-		expect(p.to_s).to match 'http://localhost:9050'
+		proxy = Proxy.new({hostname: 'http://localhost', port: 9050})
+		expect(proxy.to_s).to match 'http://localhost:9050'
+	end
+
+	it "#running?" do
+		proxy = Proxy.new({hostname: 'http://localhost', port: 9050})
+		expect(proxy.running?).to be Tool.new().tor_running?
 	end
 end

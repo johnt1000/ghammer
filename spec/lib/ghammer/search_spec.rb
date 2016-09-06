@@ -13,7 +13,7 @@ describe Search  do
 		it "empty instance" do
 			s = Search.new('http://testphp.vulnweb.com')
 
-			expect(s.site).to match "http://testphp.vulnweb.com"
+			expect(s.target).to match "http://testphp.vulnweb.com"
 			expect(s.domain.nil?).to be false
 			expect(s.num_result).to eq 1500
 			expect(s.dork.nil?).to be true
@@ -74,8 +74,6 @@ describe Search  do
 		s = Search.new('http://testphp.vulnweb.com')
 		s.dork = dk
 
-		#str = "#{s.domain}/search?q=%22sando+ixi+ixii+ixiiii%22+-ketchup+~sandu%C3%ADche+intitle:entrevista&num=1500btnG=Search&pws=1"
-		#expect(s.to_s).to match(str)
 		expect(s.to_s.nil?).to be false
 	end
 end

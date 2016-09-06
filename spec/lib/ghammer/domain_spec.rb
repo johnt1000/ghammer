@@ -18,4 +18,9 @@ describe Domain  do
 		a = Domain.new
 		expect(a.random.nil?).to be false
 	end
+
+	it "#to_s" do
+		a = Domain.new
+		expect(a.to_s.nil?).to be false
+	end
 end

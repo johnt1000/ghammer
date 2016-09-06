@@ -10,40 +10,34 @@ describe Config  do
 			c = Config.new
 
 			expect(c.env).to match "production"
-      # TODO Regex
-      expect(c.path).to match "/vagrant/workspace/ghammer_tcc/lib/ghammer/../config"
+      expect(c.path).to match "config"
 		end
+    it "set options" do
+      c = Config.new({ env: 'development', path: '/var/shared/config' })
+
+      expect(c.env).to match /development/
+      expect(c.path).to match "/var/shared/config"
+    end
 	end
 
   describe "#file_exists?" do
     it "true" do
       c = Config.new
-      c.loading
-
       expect(c.file_exists?).to be true
+      expect(c.yml.to_s).to match '../../config/production.yml'
     end
 
     it "false" do
-      c = Config.new({env: 'test'})
-      c.loading
-
+      c = Config.new({env: 'development'})
       expect(c.file_exists?).to be false
+      expect(c.yml.to_s).to match '../../config/development.yml'
     end
   end
 
-  describe "#loading" do
-    it "file exists" do
-      c = Config.new
-      c.loading
+  it "#loading" do
+    c = Config.new
+    c.loading
 
-      expect(c.params.nil?).to be false
-    end
-
-    it "file not exists" do
-      c = Config.new({env: 'test'})
-      c.loading
-      
-      expect(c.params.nil?).to be true
-    end
+    expect(c.params.nil?).to be false
   end
 end

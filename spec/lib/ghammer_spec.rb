@@ -6,19 +6,19 @@ require "./lib/ghammer/expr"
 describe Ghammer  do
 	describe "#initialized" do
 		it "empty instance" do
-			gh = Ghammer.new('http://testphp.vulnweb.com/')
+			gh = Ghammer.new({ env: 'test', target: 'http://testphp.vulnweb.com/' })
       
-      expect(gh.site).to match(/http:\/\/testphp.vulnweb.com/)
+      expect(gh.target).to match(/http:\/\/testphp.vulnweb.com/)
       expect(gh.searchs.length).to eq(0)
 		end
 	end
   
   describe "#loading" do
 		it "loading all" do
-			gh = Ghammer.new('http://testphp.vulnweb.com')
+			gh = Ghammer.new({ env: 'test', target: 'http://testphp.vulnweb.com/' })
       gh.loading
       
-      expect(gh.site).to match('http://testphp.vulnweb.com')
+      expect(gh.target).to match('http://testphp.vulnweb.com')
       expect(gh.searchs.length).to eq(2)
 			expect(gh.searchs.first.dork.expr.first.type).to match(/inurl/)
 			expect(gh.searchs.first.dork.expr.first.value).to match(/phpinfo/)
@@ -32,12 +32,4 @@ describe Ghammer  do
 			expect(gh.searchs.first.dork.expr.last.synonyms).to be nil
 		end
   end
-  
-  #it "#uri_search" do
-	#	gh = Ghammer.new('http://testphp.vulnweb.com')
-  #  gh.loading
-  #    
-  #  expect(gh.uri_search(0).to_s.nil?).to be false
-  #  expect(gh.uri_search(1).to_s.nil?).to be false
-  #end
 end

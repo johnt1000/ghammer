@@ -33,4 +33,9 @@ describe Referer  do
 		a = Referer.new
 		expect(a.random.nil?).to be false
 	end
+
+	it "#to_s" do
+		a = Referer.new
+		expect(a.to_s.nil?).to be false
+	end
 end

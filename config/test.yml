@@ -1,0 +1,15 @@
+dork:
+  directory: dorks_test
+proxy:
+  use: false
+  hostname: http://localhost
+  port: 9050
+output:
+  directory: output_test
+search:
+  persist:
+    number: 5
+  result:
+    per_page: 1500
+query:
+  daley: 1.5

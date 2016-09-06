@@ -24,4 +24,9 @@ describe Agent  do
 		a = Agent.new
 		expect(a.random.nil?).to be false
 	end
+
+	it "#to_s" do
+		a = Agent.new
+		expect(a.to_s.nil?).to be false
+	end
 end

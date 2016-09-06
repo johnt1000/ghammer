@@ -5,34 +5,28 @@ class Search
 	attr_accessor :target
 	attr_accessor :domain
 	attr_accessor :dork
-  attr_accessor :num_result
+  attr_accessor :result_per_page
+  attr_accessor :persist_number
   # proxy
   attr_accessor :proxy_use
-  attr_accessor :proxy_hostname
-  attr_accessor :proxy_port
   # query
   attr_accessor :query
   # results
 	attr_accessor :output_directory
 
-	def initialize(target, options = {})
+	def initialize(options = {})
 		#search
-    self.target = target
+    self.target = options.fetch(:target, CONFIG.target)
 		self.domain = Domain.new
-    self.num_result = options.fetch(:num_result, nil)
-    # proxy
-    self.proxy_use = options.fetch(:proxy_use, false)
-    self.proxy_hostname = options.fetch(:proxy_hostname, nil)
-    self.proxy_port = options.fetch(:proxy_port, nil)
-		# results
-		self.output_directory = options.fetch(:output_directory, nil)
+    self.result_per_page = options.fetch(:result_per_page, CONFIG.search_result_per_page)
+    self.persist_number = options.fetch(:result_per_page, CONFIG.search_persist_number)
+    self.proxy_use = options.fetch(:proxy_use, CONFIG.proxy_use)
+		self.output_directory = options.fetch(:output_directory, CONFIG.output_directory)
 	end
 
 	def run
     self.query = Query.new(self.to_s)
     self.query.proxy_use = self.proxy_use
-    self.query.proxy_hostname = self.proxy_hostname
-    self.query.proxy_port = self.proxy_port.to_i
     self.query.run
 	end
 
@@ -58,6 +52,6 @@ class Search
 	end
 
 	def to_s
-		"#{self.domain}/search?q=#{self.uri}&num=#{self.num_result}btnG=Search&pws=1"
+		"#{self.domain}/search?q=#{self.uri}&num=#{self.result_per_page}btnG=Search&pws=1"
 	end
 end
