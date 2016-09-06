@@ -32,7 +32,7 @@ class Search
     self.query = Query.new(self.to_s)
     self.query.proxy_use = self.proxy_use
     self.query.proxy_hostname = self.proxy_hostname
-    self.query.proxy_port = self.proxy_port
+    self.query.proxy_port = self.proxy_port.to_i
     self.query.run
 	end
 

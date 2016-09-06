@@ -34,11 +34,12 @@ module GHFCLI
   class Search < Thor
     desc "target <hostname>", "Efetua busca no <hostname>."
     option :output, type: :string, aliases: '-o', :desc => "Diretorio de saida."
-    option :proxy_user, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
+    option :proxy_use, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
     def target(hostname)
-      gh = Ghammer.new({ hostname: hostname } )
-      gh.proxy_use = true if options[:proxy]
+      gh = Ghammer.new({ target: hostname } )
+      gh.proxy_use = true if options[:proxy_use]
       gh.output_directory = options[:output] if options[:output]
+      # puts gh.inspect
       gh.run
     end
   end

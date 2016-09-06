@@ -52,7 +52,7 @@ class Ghammer
     self.output_directory = options.fetch(:output_directory, self.config.params["output"]["directory"])
     self.proxy_use = options.fetch(:proxy_use, self.config.params["proxy"]["use"])
     self.proxy_hostname = options.fetch(:proxy_hostname, self.config.params["proxy"]["hostname"])
-    self.proxy_port = options.fetch(:proxy_port, self.config.params["proxy"]["port"])
+    self.proxy_port = options.fetch(:proxy_port, self.config.params["proxy"]["port"]).to_i
     
 	end
   
@@ -81,9 +81,14 @@ class Ghammer
     self.loading
     puts "Dorks carregados.\n"
 
+    opts = {
+      proxy_use: self.proxy_use,
+      proxy_hostname: self.proxy_hostname,
+      proxy_port: self.proxy_port
+    }
     t = Tool.new
     puts "\nIniciando Martelada...\n"
-    puts "Meu IP: #{t.my_ip( { proxy: self.proxy_use } )}\n"
+    puts "Meu IP: #{t.my_ip(opts)}\n"
     puts "\n"
 
     i = 0

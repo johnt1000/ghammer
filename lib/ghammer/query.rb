@@ -26,14 +26,14 @@ class Query
 	end
 
 	def run
-    sleep self.delay.to_f
+    sleep self.delay
     if self.proxy_use == true
       self.cmd.proxy_url = self.proxy.hostname
       self.cmd.proxy_type = Curl::CURLPROXY_SOCKS5
       self.cmd.proxy_tunnel = true
       self.cmd.ssl_verify_peer = false
       self.cmd.ssl_verify_host = false
-      self.cmd.proxy_port = self.proxy.port.to_i
+      self.cmd.proxy_port = self.proxy.port
     end
     self.cmd.verbose = self.verbose
 		self.cmd.perform

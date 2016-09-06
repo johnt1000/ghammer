@@ -1,8 +1,7 @@
 dork:
   directory: dorks
 proxy:
-  use: false
-  renew: true
+  use: true
   hostname: http://localhost
   port: 9050
 output:
@@ -10,7 +9,7 @@ output:
 search:
   persist:
     number: 5
-  results:
+  result:
     per_page: 1500
 query:
   daley: 1.5
