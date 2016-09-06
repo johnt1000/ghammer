@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
-$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib", "config")
 
 require "rubygems"
 require "thor"
@@ -17,11 +16,11 @@ module GHFCLI
     desc "ls", "Lista todos os dorks."
     def ls()
       gh = Ghammer.new
-      dorks = gh.dork_list
+      gh.loading
 
       rows = []
-      dorks.each do |d|
-        rows << [d.title, d.to_s]
+      gh.searchs.each do |s|
+        rows << [s.dork.title, s.dork.to_s]
         rows << :separator
       end
 
@@ -35,10 +34,10 @@ module GHFCLI
   class Search < Thor
     desc "target <hostname>", "Efetua busca no <hostname>."
     option :output, type: :string, aliases: '-o', :desc => "Diretorio de saida."
-    option :proxy, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
+    option :proxy_user, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
     def target(hostname)
       gh = Ghammer.new({ hostname: hostname } )
-      gh.proxy = true if options[:proxy]
+      gh.proxy_use = true if options[:proxy]
       gh.output_directory = options[:output] if options[:output]
       gh.run
     end
@@ -49,12 +48,15 @@ module GHFCLI
     option :proxy, type: :boolean, aliases: '-p', :desc => "define se usa proxy"
     def my_ip
       puts "\nConsultando IP. Aguarde..."
-      t = Tool.new
+      
+      gh = Ghammer.new
       unless options[:proxy]
-        str = "\s\sSeu IP atual é #{t.my_ip}."
+        str = "\s\sSeu IP atual é #{gh.my_ip}"
       else
-        str = "\s\sSeu IP atual na rede Tor é #{t.my_ip({proxy: true})}."
+        gh.proxy_use = true
+        str = "\s\sSeu IP atual na rede Tor é #{gh.my_ip}"
       end
+      
       puts "#{str}\n\n"
     end
   end

@@ -1,6 +1,9 @@
 # encoding: UTF-8
 
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), "config")
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "ghammer")
+
+APP_ROOT = File.join(File.dirname(__FILE__), "..")
 
 require 'json'
 require 'uri'
@@ -17,42 +20,60 @@ require 'query'
 require 'search'
 
 class Ghammer
-  
-  attr_accessor :hostname
-  attr_accessor :proxy
-  attr_accessor :proxy_renew
-  attr_accessor :output_directory
-  attr_accessor :dork_directory
+  # ghammer
   attr_accessor :searchs
+  attr_accessor :persist_number
+  attr_accessor :dork_directory
+  
+  # search/proxy
+  attr_accessor :target
+  attr_accessor :result_per_page
+  attr_accessor :output_directory
+  attr_accessor :proxy_use
+  attr_accessor :proxy_hostname
+  attr_accessor :proxy_port
+  
+  # configuration
   attr_accessor :config
   
 	def initialize(options = {})
+    # configuration
     self.config = Config.new
     self.config.loading
-
-    self.proxy = options.fetch(:proxy, self.config.params["proxy"]["use"])
-    self.proxy_renew = options.fetch(:proxy, self.config.params["proxy"]["renew"])
-    self.output_directory = options.fetch(:output_directory, self.config.params["output"]["directory"])
+    
+    # ghammer
+    self.persist_number = options.fetch(:persist_number, self.config.params["search"]["persist"]["number"])
     self.dork_directory = options.fetch(:dork_directory, self.config.params["dork"]["directory"])
-    self.hostname = options.fetch(:hostname, nil)
     self.searchs = []
+    
+    # search/proxy
+    self.target = options.fetch(:target, nil)
+    self.result_per_page = options.fetch(:result_per_page, self.config.params["search"]["result"]["per_page"])
+    self.output_directory = options.fetch(:output_directory, self.config.params["output"]["directory"])
+    self.proxy_use = options.fetch(:proxy_use, self.config.params["proxy"]["use"])
+    self.proxy_hostname = options.fetch(:proxy_hostname, self.config.params["proxy"]["hostname"])
+    self.proxy_port = options.fetch(:proxy_port, self.config.params["proxy"]["port"])
+    
 	end
   
   def loading
-    Dir["#{File.dirname(__FILE__)}/#{self.dork_directory}/*.json"].each do |file|
+    Dir["#{APP_ROOT}/#{self.dork_directory}/*.json"].each do |file|
       obj_file = File.read(file)
       
       json = JSON.parse(obj_file, { symbolize_names: true })
       dork = Dork.new(json)
 
-      search = Search.new(self.hostname, { proxy: self.proxy, output_directory: self.output_directory })
+      opts = {
+        proxy_use: self.proxy_use,
+        proxy_hostname: self.proxy_hostname,
+        proxy_port: self.proxy_port,
+        output_directory: self.output_directory,
+        num_result: self.result_per_page
+      } 
+      search = Search.new(self.target, opts)
       search.dork = dork
       self.searchs.push(search)
     end
-  end
-
-  def get_search(index)
-    self.searchs[index]
   end
 
   def run
@@ -62,13 +83,13 @@ class Ghammer
 
     t = Tool.new
     puts "\nIniciando Martelada...\n"
-    puts "Meu atual: #{t.my_ip( { proxy: self.proxy } )}\n"
+    puts "Meu IP: #{t.my_ip( { proxy: self.proxy_use } )}\n"
     puts "\n"
 
     i = 0
     repeat = 1
     while i < searchs.count
-      search = self.get_search(i)
+      search = self.searchs[i]
 
       str = String.new
       if repeat == 1
@@ -78,10 +99,8 @@ class Ghammer
         str.concat "Dork: #{search.dork}\n"
       end
 
-      # TODO colocar em arquivo de configuração o valor padrão
-      # TODO o numero 3
-      if repeat <= 3
-        str.concat "Tentativa: #{repeat} de 3"
+      if repeat <= self.persist_number
+        str.concat "Tentativa: #{repeat} de #{self.persist_number}"
       end
       
       search.run
@@ -91,8 +110,7 @@ class Ghammer
         str.concat "\nSucesso: Consulta efetuada, resultado sendo analizado...\n"
         search.save
       else
-        # TODO colocar em arquivo de configuração o valor padrão
-        if repeat >= 3 # <- isso tem que ir para um .conf
+        if repeat >= self.persist_number
           i += 1
           repeat = 1
           str.concat "\nFalha: Tentativas esgotadas.\n"
@@ -108,31 +126,15 @@ class Ghammer
       str.concat "\n"
       puts str
     end
-
-    #self.searchs.each do |search|
-    #  str = String.new
-    #  str.concat "Iniciando nova busca..."
-    #  str.concat "\n"
-    #  str.concat "\n"
-    #  str.concat "Dork: #{search.dork}"
-    #  puts str
-    #  
-    #  search.run
-    #end
   end
-
-  def dork_list
-    dorks = []
-    Dir["#{File.dirname(__FILE__)}/#{self.dork_directory}/*.json"].each do |file|
-      obj_file = File.read(file)
-      obj_file.inspect
-      
-      json = JSON.parse(obj_file, { symbolize_names: true })
-      dork = Dork.new(json)
-
-      dorks.push(dork)
-    end
-
-    return dorks
+  
+  def my_ip
+    opts = {
+      proxy_use: self.proxy_use,
+      proxy_hostname: self.proxy_hostname,
+      proxy_port: self.proxy_port
+    }
+    tool = Tool.new
+    tool.my_ip(opts)
   end
 end

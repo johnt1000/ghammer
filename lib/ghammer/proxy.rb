@@ -6,9 +6,8 @@ class Proxy
 	attr_accessor :status
 
 	def initialize(options = {})
-		# TODO colocar em arquivo de configuração o valor padrão
-    self.hostname = options.fetch(:hostname, 'http://localhost')
-    self.port = options.fetch(:port, 9050)
+    self.hostname = options.fetch(:hostname, nil)
+    self.port = options.fetch(:port, nil)
     self.status = Tool.new().tor_running?
 	end
 

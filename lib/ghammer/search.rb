@@ -1,25 +1,38 @@
 # encoding: UTF-8
 
 class Search
-	attr_accessor :site
+  # search
+	attr_accessor :target
 	attr_accessor :domain
 	attr_accessor :dork
-  attr_accessor :proxy
-	attr_accessor :num_result
-	attr_accessor :query
+  attr_accessor :num_result
+  # proxy
+  attr_accessor :proxy_use
+  attr_accessor :proxy_hostname
+  attr_accessor :proxy_port
+  # query
+  attr_accessor :query
+  # results
 	attr_accessor :output_directory
 
-	def initialize(site, options = {})
-    self.proxy = options.fetch(:proxy, false)
-		self.site = site
+	def initialize(target, options = {})
+		#search
+    self.target = target
 		self.domain = Domain.new
-		# TODO colocar em arquivo de configuração o valor padrão
-		self.output_directory = options.fetch(:output_directory, 'output')
-		self.num_result = 1500
+    self.num_result = options.fetch(:num_result, nil)
+    # proxy
+    self.proxy_use = options.fetch(:proxy_use, false)
+    self.proxy_hostname = options.fetch(:proxy_hostname, nil)
+    self.proxy_port = options.fetch(:proxy_port, nil)
+		# results
+		self.output_directory = options.fetch(:output_directory, nil)
 	end
 
 	def run
-    self.query = Query.new(self.to_s, { proxy: self.proxy })
+    self.query = Query.new(self.to_s)
+    self.query.proxy_use = self.proxy_use
+    self.query.proxy_hostname = self.proxy_hostname
+    self.query.proxy_port = self.proxy_port
     self.query.run
 	end
 
@@ -40,7 +53,7 @@ class Search
 	end
 
 	def uri
-		uri = URI.escape("site:#{self.site}")
+		uri = URI.escape("site:#{self.target}")
 		"#{uri}+#{self.dork.uri}"
 	end
 

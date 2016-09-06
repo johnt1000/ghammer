@@ -2,10 +2,9 @@
 
 class Tool
   def my_ip(options = {})
-    proxy = options.fetch(:proxy, false)
-    q = Query.new("https://api.ipify.org", { proxy: proxy })
-    q.run
-    q.result
+    query = Query.new("https://api.ipify.org", options)
+    query.run
+    query.result
   end
 
   def curl_installed?

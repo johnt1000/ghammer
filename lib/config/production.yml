@@ -1,7 +1,16 @@
 dork:
-  directory: ./../dorks
+  directory: dorks
 proxy:
   use: false
   renew: true
+  hostname: http://localhost
+  port: 9050
 output:
-  directory: 'output'
+  directory: output
+search:
+  persist:
+    number: 5
+  results:
+    per_page: 1500
+query:
+  daley: 1.5

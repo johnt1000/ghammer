@@ -6,7 +6,6 @@ class Domain
 
 	def initialize
     self.url = get_url
-    # TODO colocar em arquivo de configuração o valor padrão
     self.protocol = 'https'
 	end
 
