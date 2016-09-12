@@ -36,5 +36,5 @@ class Tool
   def tor_renew
     system("[ -z 'pidof tor' ] || pidof tor | xargs sudo kill -HUP;")
     sleep 1
-  end
+  end  
 end

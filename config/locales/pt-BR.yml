@@ -1,2 +1,17 @@
 pt-BR:
-  hello: "Olha mundo!!"
+  dork:
+    description: Gestão das DORK's a aplicação.
+    ls:
+      description: Lista todos os DORK's disponíveis.
+      loading: Lendo diretório de DORK's. Aguarde...
+      table:
+        title: Lista de DORK's
+        col1: Título
+        col2: DORK
+        col3: MD5
+    rm:
+      description: Remove o DORK com <md5> informado.
+      loading: Removendo DORK alvo. Aguarde...
+      result:
+        positive: DORK removido com sucesso.
+        negative: DORK já foi removido ou não existe.

@@ -8,6 +8,7 @@ gem 'thor'
 gem 'curb'
 gem 'terminal-table'
 gem 'i18n'
+gem 'highline'
 
 group :development do
 	gem 'rspec'

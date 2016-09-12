@@ -14,28 +14,52 @@ require "boot"
 
 CONFIG = GHF::App::new
 
-puts I18n.t 'hello'
 # print banner
 bnr = Banner.new
 puts bnr
 
 module GHFCLI
   class Dork < Thor
-    desc "ls", "Lista todos os dorks."
+    desc "ls", I18n.t('dork.ls.description')
     def ls()
-      gh = Ghammer.new
-      gh.loading
-
+      puts I18n.t('dork.ls.loading')
+      # loading
+      dorks = Dorks.new
+      dorks.loading
+      # table
       rows = []
-      gh.searchs.each do |s|
-        rows << [s.dork.title, s.dork.to_s]
+      dorks.result.each do |dork|
+        rows << [dork.title, dork.to_s, dork.md5]
         rows << :separator
       end
+      table =  Terminal::Table.new(:title => I18n.t('dork.ls.table.title'),
+                                :headings => [
+                                  I18n.t('dork.ls.table.col1'),
+                                  I18n.t('dork.ls.table.col2'),
+                                  I18n.t('dork.ls.table.col3')
+                                ],
+                                :rows => rows)
+      puts table.to_s
+    end
 
-      puts "\n"
-      puts Terminal::Table.new :title => "Dork List", :headings => ['Title', 'Dork'], :rows => rows
-      puts "\n"
+    desc "rm <md5>", I18n.t('dork.rm.description')
+    def rm(md5)
+      puts "#{I18n.t('dork.rm.loading')}"
+      # loading
+      dorks = Dorks.new
+      rs = dorks.rm(md5)
+      if rs == true
+        puts "\s\s#{I18n.t('dork.rm.result.positive')}\n\n"
+      else
+        puts "\s\s#{I18n.t('dork.rm.result.negative')}\n\n"
+      end
+    end
 
+    desc "add", I18n.t('dork.add.description')
+    def add
+      cli = HighLine.new
+      answer = cli.ask "What do you think?"
+      puts "You have answered: #{answer}"
     end
   end
 
@@ -97,7 +121,7 @@ module GHFCLI
   class GHF < Thor
     class_option :verbose, :type => :boolean, :aliases => "-v"
     
-    desc "dork SUBCOMMAND", "gerencia dorks"
+    desc "dork SUBCOMMAND", I18n.t('dork.description')
     subcommand "dork", Dork
 
     desc "search SUBCOMMAND", "gerencia buscas"
