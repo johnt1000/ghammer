@@ -4,131 +4,67 @@ require "spec_helper"
 require "./lib/ghammer/dork"
 require "./lib/ghammer/expr"
 
-describe Dork  do
-	describe "#initialized" do
-		it "empty instance" do
-			dk = Dork.new
-
-			expect(dk.title).to be nil
-			expect(dk.description).to be nil
-			expect(dk.category).to be nil
-			expect(dk.author).to be nil
-			expect(dk.version).to be 0
-			expect(dk.deprecated).to be false
-			expect(dk.expr.length).to eq(0)
-		end
-	end
-
-	describe "checking parameters" do
-		it "starting and checking parameters." do
-      opts = {
-        title: 'Title',
-        description: 'Description',
-        category: 'General',
-        category_child: 'General Child',
-        author: 'Author',
-        version: 1.0,
-        deprecated: false,
-        expr: []
-      }
-			dk = Dork.new(opts)
-
-			expect(dk.title).to match(/Title/)
-			expect(dk.description).to match(/Description/)
-			expect(dk.category).to match(/General/)
-			expect(dk.category_child).to match(/General Child/)
-			expect(dk.author).to match(/Author/)
-			expect(dk.version).to eq(1.0)
-			expect(dk.deprecated).to be false
-			expect(dk.expr.length).to eq(0)
-		end
-
-		it "checking insertion of new expressions in Dork." do
-			expr1 = {
-        type: 'text',
-        value: 'sando ixi ixii ixiiii',
-        quoted: true,
-        suppress: 'ketchup',
-        synonyms: 'sanduíche'
-      }
-			expr2 = {
-        type: 'intitle',
-        value: 'entrevista'
-      }
-      opts = {
-        title: 'Title',
-        description: 'Description',
-        category: 'General',
-        author: 'Author',
-        version: 1.0,
-        deprecated: false,
-        expr: [expr1,expr2]
-      }
-			dk = Dork.new opts
-
-			expect(dk.expr[0].type).to match(/text/)
-			expect(dk.expr[0].value).to match(/sando ixi ixii ixiiii/)
-			expect(dk.expr[0].quoted).to be true
-			expect(dk.expr[0].suppress).to match(/ketchup/)
-			expect(dk.expr[0].synonyms).to match(/sanduíche/)
-
-			expect(dk.expr[1].type).to match(/intitle/)
-			expect(dk.expr[1].value).to match(/entrevista/)
-			expect(dk.expr[1].quoted).to be false
-			expect(dk.expr[1].suppress).to be nil
-			expect(dk.expr[1].synonyms).to be nil
-		end
-	end
-
-	it "#uri" do
-		expr1 = {
+describe Dork, 'whenever used' do
+  before do
+    # setup
+    @expr1 = {
       type: 'text',
-      value: 'sando ixi ixii ixiiii',
+      value: 'sandu ixiixiiixiiii',
       quoted: true,
       suppress: 'ketchup',
       synonyms: 'sanduíche'
     }
-		expr2 = {
+    @expr2 = {
       type: 'intitle',
       value: 'entrevista'
     }
-    opts = {
+    @opts = {
       title: 'Title',
       description: 'Description',
       category: 'General',
+      category_child: 'General Child',
       author: 'Author',
       version: 1.0,
       deprecated: false,
-      expr: [expr1,expr2]
+      expr: [@expr1, @expr2]
     }
-		dk = Dork.new opts
-
-		expect(dk.uri).to match("%22sando+ixi+ixii+ixiiii%22+-ketchup+~sandu%C3%ADche+intitle:entrevista")
-	end
+    @dork = Dork.new @opts
+  end
   
-	it "#to_s" do
-		expr1 = {
-      type: 'text',
-      value: 'sando ixi ixii ixiiii',
-      quoted: true,
-      suppress: 'ketchup',
-      synonyms: 'sanduíche'
+  it "#initialized" do
+    # verify
+    expect(@dork.title).to match(/Title/)
+    expect(@dork.description).to match(/Description/)
+    expect(@dork.category).to match(/General/)
+    expect(@dork.category_child).to match(/General Child/)
+    expect(@dork.author).to match(/Author/)
+    expect(@dork.version).to eq(1.0)
+    expect(@dork.deprecated).to be false
+    expect(@dork.expr.length).to eq(2)
+    expect(@dork.expr.first).to be_a(Expr)
+    expect(@dork.expr.first).to have_attributes(@expr1)
+    expect(@dork.expr.last).to be_a(Expr)
+    expect(@dork.expr.last).to have_attributes(@expr2)
+  end
+  
+  it "#add_expr" do
+    # setup
+    expr3 = {
+      type: 'inurl',
+      value: 'youtube'
     }
-		expr2 = {
-      type: 'intitle',
-      value: 'entrevista'
-    }
-    opts = {
-      title: 'Title',
-      description: 'Description',
-      category: 'General',
-      author: 'Author',
-      version: 1.0,
-      deprecated: false,
-      expr: [expr1,expr2]
-    }
-		dk = Dork.new opts
-
-		expect(dk.to_s).to match(/"sando ixi ixii ixiiii" -ketchup ~sanduíche intitle:entrevista/)
-	end
+    # exercise
+    @dork.add_expr [expr3]
+    # verify
+    expect(@dork.expr.last).to be_a(Expr)
+    expect(@dork.expr.last).to have_attributes(expr3)
+  end
+  
+  it "#uri" do
+    expect(@dork.uri).to match("%22sandu+ixiixiiixiiii%22+-ketchup+~sandu%C3%ADche+intitle:entrevista")
+  end
+  
+  it "#to_s" do
+    expect(@dork.to_s).to match('"sandu ixiixiiixiiii" -ketchup ~sanduíche intitle:entrevista')
+  end
 end

@@ -3,7 +3,6 @@
 require "rubygems"
 require "thor"
 require 'terminal-table'
-require 'yaml'
 
 APP_ROOT = File.join(File.dirname(__FILE__), "..")
 
@@ -14,6 +13,11 @@ $LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer')
 require "boot"
 
 CONFIG = GHF::App::new
+
+puts I18n.t 'hello'
+# print banner
+bnr = Banner.new
+puts bnr
 
 module GHFCLI
   class Dork < Thor

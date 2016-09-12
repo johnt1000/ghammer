@@ -101,3 +101,17 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+require "rubygems"
+require "thor"
+require 'terminal-table'
+
+APP_ROOT = File.join(File.dirname(__FILE__), "..")
+
+$LOAD_PATH.unshift File.join(APP_ROOT, 'config')
+$LOAD_PATH.unshift File.join(APP_ROOT, 'lib')
+$LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer')
+
+require "boot"
+
+CONFIG = GHF::App::new({ env: 'test'})

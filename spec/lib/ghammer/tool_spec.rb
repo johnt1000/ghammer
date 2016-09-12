@@ -3,20 +3,20 @@
 require "spec_helper"
 require "./lib/ghammer/tool"
 
-describe Search  do
-	describe "#curl_installed?" do
-		it "true" do
-			t = Tool.new
-			expect(t.curl_installed?).to be true
-		end
-	end
-
-  describe "#tor_installed?" do
-    it "true" do
-      t = Tool.new
-      expect(t.tor_installed?).to be true
-    end
-  end
+describe Tool  do
+	# describe "#curl_installed?" do
+#     it "true" do
+#       t = Tool.new
+#       expect(t.curl_installed?).to be true
+#     end
+#   end
+#
+#   describe "#tor_installed?" do
+#     it "true" do
+#       t = Tool.new
+#       expect(t.tor_installed?).to be true
+#     end
+#   end
 
   # it "#curl_install" do
   #   t = Tool.new
@@ -32,10 +32,10 @@ describe Search  do
 	#	expect(t.tor_installed?).to be true
 	#end
 
-	describe "#tor_running?" do
-		it "true" do
-			t = Tool.new
-			expect(t.tor_running?).to be true
-		end
-	end
+  # describe "#tor_running?" do
+  #   it "true" do
+  #     t = Tool.new
+  #     expect(t.tor_running?).to be true
+  #   end
+  # end
 end

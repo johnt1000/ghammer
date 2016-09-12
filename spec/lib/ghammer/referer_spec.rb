@@ -3,39 +3,43 @@
 require "spec_helper"
 require "./lib/ghammer/referer"
 
-describe Referer  do
-	describe "#initialized" do
-		it "empty instance" do
-			a = Referer.new
+describe Referer, 'whenever used' do
+  before { @referer = Referer.new }
+  
+  it "#initialized" do
+    expect(@referer.domain.count).to eq 69
+    expect(@referer.domain).to start_with('Adzuna')
+    expect(@referer.domain).to end_with('Zoopla')
+    expect(@referer.domain).to include('Lexis', 'CiteAb')
+      
+    expect(@referer.tld.count).to eq 16
+    expect(@referer.tld).to start_with('aero')
+    expect(@referer.tld).to end_with('tel')
+    expect(@referer.tld).to include('coop', 'info')
+      
+    expect(@referer.file.count).to eq 16
+    expect(@referer.file).to start_with('admin')
+    expect(@referer.file).to end_with('view')
+    expect(@referer.file).to include('shop', 'news')
+      
+    expect(@referer.ext.count).to eq 16
+    expect(@referer.ext).to start_with('exe')
+    expect(@referer.ext).to end_with('rss')
+    expect(@referer.ext).to include('htm', 'py')
+      
+    expect(@referer.folder.count).to eq 142
+    expect(@referer.folder).to start_with('App_Files')
+    expect(@referer.folder).to end_with('acc_syun_su')
+    expect(@referer.folder).to include('Dashboard', 'Help')
 
-			expect(a.domain.count).to eq 69
-			expect(a.domain.first).to match /Adzuna/
-			expect(a.domain.last).to match /Zoopla/
-			expect(a.tld.count).to eq 16
-			expect(a.tld.first).to match /aero/
-			expect(a.tld.last).to match /tel/
-			expect(a.file.count).to eq 16
-			expect(a.file.first).to match /admin/
-			expect(a.file.last).to match /view/
-			expect(a.ext.count).to eq 16
-			expect(a.ext.first).to match /exe/
-			expect(a.ext.last).to match /rss/
-			expect(a.folder.count).to eq 142
-			expect(a.folder.first).to match /App_Files/
-			expect(a.folder.last).to match /acc_syun_su/
-			expect(a.local.count).to eq 246
-			expect(a.local.first).to match /ac/
-			expect(a.local.last).to match /ai/
-		end
-	end
+    expect(@referer.local.count).to eq 246
+    expect(@referer.local).to start_with('ac')
+    expect(@referer.local).to end_with('ai')
+    expect(@referer.local).to include('bm', 'cu')
+  end
 
-	it "#random" do
-		a = Referer.new
-		expect(a.random.nil?).to be false
-	end
-
-	it "#to_s" do
-		a = Referer.new
-		expect(a.to_s.nil?).to be false
-	end
+  it "#to_s" do
+    expect(@referer.to_s.nil?).to be false
+    expect(@referer.to_s).to include('http', 'www', '//', '.', '/')
+  end
 end

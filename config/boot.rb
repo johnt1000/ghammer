@@ -1,5 +1,7 @@
 # encoding: UTF-8
 
+require 'i18n'
+require 'yaml'
 require 'json'
 require 'uri'
 require 'curb'
@@ -35,7 +37,7 @@ module GHF
       # configuration
       config = Config.new
       config.env =  options.fetch(:env, "production")
-      config.path = "#{APP_ROOT}/config"
+      config.path = File.join(APP_ROOT, 'config')
       if config.file_exists?
         # loading config
         config.loading
@@ -53,10 +55,10 @@ module GHF
         self.search_result_per_page = config.params["search"]["result"]["per_page"]
         self.query_delay = config.params["query"]["delay"]
         self.query_verbose = config.params["query"]["verbose"]
-
-        # print banner
-        bnr = Banner.new
-        puts bnr.banner
+        
+        # locale
+        I18n.config.load_path += Dir[File.join(APP_ROOT, 'config','locales', '*.{rb,yml}').to_s]
+        I18n.default_locale = :"#{config.params['locale']}"
       else
         puts "\s\sErro ao tentar abrir arquivo de configuração."
         puts "\s\sVerififque se existe o arquivo #{self.config.yml}.\n\n"

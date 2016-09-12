@@ -1,15 +1,15 @@
 # encoding: UTF-8
 
 class Query
-	attr_accessor :cmd
+  attr_accessor :cmd
   attr_accessor :delay
   attr_accessor :verbose
   # proxy
   attr_accessor :proxy_use
   attr_accessor :proxy
 
-	def initialize(url, options = {})
-		self.cmd = Curl::Easy.new(url)
+  def initialize(url, options = {})
+    self.cmd = Curl::Easy.new(url)
     self.cmd.headers["User-Agent"] = Agent.new().to_s
     self.cmd.headers["Referer"] = Referer.new().to_s
 
@@ -18,9 +18,9 @@ class Query
     
     self.proxy_use = options.fetch(:proxy_use, CONFIG.proxy_use)
     self.proxy = Proxy.new
-	end
+  end
 
-	def run
+  def run
     sleep self.delay
     if self.proxy_use == true
       # proxy configuration
@@ -32,14 +32,14 @@ class Query
       self.cmd.ssl_verify_host = false
     end
     self.cmd.verbose = self.verbose
-		self.cmd.perform
-	end
+    self.cmd.perform
+  end
 
   def status
     self.cmd.status
   end
 
-	def result
-		self.cmd.body_str
-	end
+  def result
+    self.cmd.body_str
+  end
 end

@@ -11,22 +11,22 @@ class Agent
     self.local = get_local
 	end
 
-	def random
-		str = String.new
-		str.concat self.browser.sample
-		str.concat "/#{rand(20)}.#{rand(20)}"
-		str.concat " ("
-		str.concat "#{self.os.sample} #{rand(7)}.#{rand(9)}; "
-		str.concat "#{self.local.sample};"
-		str.concat ")"
-		str
-	end
-
 	def to_s
 		random
 	end
 
 	private
+  
+  	def random
+  		str = String.new
+  		str.concat self.browser.sample
+  		str.concat "/#{rand(20)}.#{rand(20)}"
+  		str.concat " ("
+  		str.concat "#{self.os.sample} #{rand(7)}.#{rand(9)}; "
+  		str.concat "#{self.local.sample};"
+  		str.concat ")"
+  		str
+  	end
 
 		def get_browser
 			browser = Array.new

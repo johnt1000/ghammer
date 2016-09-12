@@ -17,3 +17,4 @@ search:
 query:
   delay: 1.5
   verbose: false
+locale: pt-BR

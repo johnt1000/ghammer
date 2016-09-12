@@ -9,8 +9,7 @@ class Ghammer
   attr_accessor :dork_directory
   
   
-	def initialize(options = {})
-    
+  def initialize(options = {})
     # ghammer
     self.searchs = []
     
@@ -18,7 +17,7 @@ class Ghammer
     self.target = options.fetch(:target, CONFIG.target)
     self.proxy_use = options.fetch(:proxy_use, CONFIG.proxy_use)
     self.dork_directory = options.fetch(:dork_directory, CONFIG.dork_directory)
-	end
+  end
   
   def loading
     Dir["#{APP_ROOT}/#{self.dork_directory}/*.json"].each do |file|
