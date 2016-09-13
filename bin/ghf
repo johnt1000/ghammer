@@ -57,9 +57,26 @@ module GHFCLI
 
     desc "add", I18n.t('dork.add.description')
     def add
+      say I18n.t('dork.add.loading')
+      title = ask("> #{I18n.t('dork.add.question.title')} ") { |q| q.default = "title" }
+      description = ask("> #{I18n.t('dork.add.question.description')} ") { |q| q.default = "title" }
+      # category
+      category = nil
       cli = HighLine.new
-      answer = cli.ask "What do you think?"
-      puts "You have answered: #{answer}"
+      cli.choose do |menu|
+        # puts menu.methods.sort
+        menu.header = "> #{I18n.t('dork.add.question.category')}"
+        menu.prompt = "> #{I18n.t('dork.add.question.category_prompt')}"
+        CONFIG.dork_categories.split(', ').sort.each do |cat|
+          menu.choice(:"#{cat.capitalize}") {
+            category = cat.capitalize
+            cli.say("#{cat.capitalize}")
+          }
+        end
+      end
+      puts title
+      puts description
+      puts category
     end
   end
 

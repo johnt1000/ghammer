@@ -5,6 +5,7 @@ require 'yaml'
 require 'json'
 require 'uri'
 require 'highline'
+require 'highline/import'
 require 'curb'
 require 'config'
 require 'expr'
@@ -26,6 +27,7 @@ module GHF
     attr_accessor :verbose
     attr_accessor :debug
     attr_accessor :dork_directory
+    attr_accessor :dork_categories
     attr_accessor :proxy_use
     attr_accessor :proxy_hostname
     attr_accessor :proxy_port
@@ -49,6 +51,7 @@ module GHF
         self.verbose = config.params["verbose"]
         self.debug = config.params["debug"]
         self.dork_directory = config.params["dork"]["directory"]
+        self.dork_categories = config.params["dork"]["categories"]
         self.proxy_use = config.params["proxy"]["use"]
         self.proxy_hostname = config.params["proxy"]["hostname"]
         self.proxy_port = config.params["proxy"]["port"]
