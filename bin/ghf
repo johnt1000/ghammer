@@ -58,8 +58,24 @@ module GHFCLI
     desc "add", I18n.t('dork.add.description')
     def add
       say I18n.t('dork.add.loading')
-      title = ask("> #{I18n.t('dork.add.question.title')} ") { |q| q.default = "title" }
-      description = ask("> #{I18n.t('dork.add.question.description')} ") { |q| q.default = "title" }
+      title       = ask("> #{I18n.t('dork.add.question.title')} ") { |q| q.default = "title" }
+      description = ask("> #{I18n.t('dork.add.question.description')} ") { |q| q.default = "description" }
+      author      = ask("> #{I18n.t('dork.add.question.author')} ") { |q| q.default = "author" }
+
+      category = nil
+      cli = HighLine.new
+      cli.choose do |menu|
+        # puts menu.methods.sort
+        menu.header = "> #{I18n.t('dork.add.question.category')}"
+        menu.prompt = "> #{I18n.t('dork.add.question.category_prompt')}"
+        Expr::SEARCH_OPERATORS.sort.each do |operator|
+          menu.choice(:"#{operator}") {
+            category = operator
+            cli.say(operator)
+          }
+          puts operator
+        end
+      end
       # category
       category = nil
       cli = HighLine.new

@@ -16,8 +16,8 @@ describe Search, 'whenever used' do
       type: 'text',
       value: 'sandu ixiixiiixiiii',
       quoted: true,
-      suppress: 'ketchup',
-      synonyms: 'sanduíche'
+      suppress: ['ketchup'],
+      synonyms: ['sanduíche']
     }
     @expr2 = {
       type: 'intitle',

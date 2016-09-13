@@ -18,4 +18,19 @@ describe Expr, 'whenever used' do
     #verify
     expect(expr).to have_attributes(opts)
   end
+
+  it "#decode" do
+    # setup
+    opts = {
+      type: 'inurl',
+      value: 'installer-log.txt',
+      quoted: true,
+      suppress: ['file', 'abc'],
+      synonyms: ['install', 'installed']
+    }
+
+    expr = Expr.new opts
+
+    expect(expr.decode).to eq('inurl:"installer-log.txt" -file -abc ~install ~installed')
+  end
 end

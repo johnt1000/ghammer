@@ -21,5 +21,6 @@ pt-BR:
       question:
         title: 'Informe um título para a dork:'
         description: 'Informe a descrição da sua dork:'
+        description: 'Informe o nome do autor da dork:'
         category: 'Selecione a categoria que pertence o seu dork'
         category_prompt: 'Qual o número correspondente a categoria?'

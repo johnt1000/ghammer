@@ -38,26 +38,9 @@ class Dork
   
   def to_s
     str = String.new
-
     self.expr.each do |e|
-      case e.type
-      when 'text'
-        str.concat(" #{e.value}") if e.quoted == false
-        str.concat(" \"#{e.value}\"") if e.quoted == true
-      else
-        str.concat(" #{e.type}:#{e.value}") if e.quoted == false
-        str.concat(" #{e.type}:\"#{e.value}\"") if e.quoted == true
-      end
-
-      unless e.suppress.nil?
-        str.concat(" -#{e.suppress}")
-      end
-
-      unless e.synonyms.nil?
-        str.concat(" ~#{e.synonyms}")
-      end
+      str.concat(" #{e.decode}")
     end
-
     return str.strip
   end
 end
