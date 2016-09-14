@@ -1,7 +1,6 @@
 # encoding: UTF-8
 
 class Dork
-	
   attr_accessor :title
   attr_accessor :description
   attr_accessor :category
@@ -11,6 +10,22 @@ class Dork
   attr_accessor :version
   attr_accessor :deprecated
   attr_accessor :expr
+  CATEGORIES = [
+    'Vulnerable files',
+    'Vulnerable servers',
+    'Error messages',
+    'Network or vulnerability data',
+    'Various online devices',
+    'Files containing passwords',
+    'Sensitive online shopping info',
+    'Files containing juicy info',
+    'Pages containing login portals',
+    'Advisories and vulnerabilities',
+    'Files containing usernames',
+    'Footholds',
+    'Sensitive directories',
+    'Web server detection'
+  ]
 
   def initialize(options = {})
     self.title = options.fetch(:title, nil)
@@ -19,7 +34,7 @@ class Dork
     self.category_child = options.fetch(:category_child, nil)
     self.author = options.fetch(:author, nil)
     self.md5 = options.fetch(:md5, nil)
-    self.version = options.fetch(:version, 0)
+    self.version = options.fetch(:version , 0)
     self.deprecated = options.fetch(:deprecated, false)
     self.add_expr(options.fetch(:expr, []))
   end
