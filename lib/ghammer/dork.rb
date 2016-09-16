@@ -46,6 +46,13 @@ class Dork
     end
   end
   
+  def add_exprs(exprs = [])
+    self.expr = [] if self.expr.nil?
+    exprs.each do |expr|
+      self.expr.push(Expr.new(expr))
+    end
+  end
+  
   def uri
     str = self.to_s.gsub(' ', '+')
     URI.escape(str)

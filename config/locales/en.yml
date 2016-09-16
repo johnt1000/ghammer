@@ -1,2 +1,127 @@
 en:
-  hello: "Hello world"
+  dork:
+    description: Gestão de dorks da aplicação.
+    ls:
+      description: Lista todos os dorks disponíveis.
+      loading: Lendo diretório de dorks. Aguarde...
+      table:
+        title: Lista de dorks
+        col1: Título
+        col2: Dork
+        col3: MD5
+    rm:
+      description: Remove o dork com <md5> informado.
+      loading: Removendo dork alvo. Aguarde...
+      result:
+        positive: Dork removido com sucesso.
+        negative: Dork já foi removido ou não existe.
+    add:
+      description: Cria nova nova dork.
+      loading: Responda as perguntas a seguir para criar sua dork personalizada...
+      question:
+        title: 'Informe um título para a dork:'
+        description: 'Informe a descrição da sua dork:'
+        author: 'Informe o nome do autor da dork:'
+        category: 'Lista de categorias'
+        category_prompt: 'Qual a categoria da sua dork'
+      categories:
+        vulnerable_files: Vulnerable Files
+        vulnerable_servers: Vulnerable Servers
+        error_messages: Error Messages
+        network_or_vulnerability_data: Network or vulnerability data
+        various_online_devices: Various Online Devices
+        files_containing_passwords: Files containing passwords
+        sensitive_online_shopping Info: Sensitive Online Shopping Info
+        files_containing_juicy_info: Files containing juicy info
+        pages_containing_login_portals: Pages containing login portals
+        advisories_and_vulnerabilities: Advisories and Vulnerabilities
+        files_containing_usernames: Files containing usernames
+        footholds: Footholds
+        sensitive_directories: sensitive Directories
+        web_server_detection: Web Server Detection
+      expr:
+        operator:
+          allinanchor:
+            title: allinanchor
+            summary: All query words must appear in anchor text of links to the page.
+            exemple: allinanchor:useful parenting sites (Search for pages that are called useful parenting sites by others.)
+          allintext:
+            title: allintext
+            summary: All query words must appear the in text of the page.
+            exemple: allintext:ingredients cilantro chicken lime (Search for recipes with these three ingredients.)
+          allintitle:
+            title: allintitle
+            summary: All query words must appear in the title of the page.
+            exemple: 'allintitle: Google Advanced Operators (Search for pages with titles containing "Google," "Advanced,", and "Operators".)'
+          allinurl:
+            title: allinurl
+            summary: All query words must appear in the URL.
+            exemple: allinurl:pez faq (Search for pages containing the words pez & faq in the URL.)
+          cache:
+            title: cache
+            summary: Display Google's cached version of a web page.
+            exemple: cache:www.irs.gov (Show Google's cached version of the US Internal Revenue Service home page.)
+          define:
+            title: define
+            summary:
+            exemple:
+          filetype:
+            title: filetype
+            summary:
+            exemple:
+          id:
+            title: id
+            summary: Find info about a page.
+            exemple: info:www.theonion.com (Find information about The Onion website.)
+          inanchor:
+            title: inanchor
+            summary: Terms must appear in anchor text of links to the page.
+            exemple: restaurants Portland inanchor:kid-friendly (Search for pages on Portland restaurants for which links to the page say they are "kid friendly.")
+          info:
+            title: info
+            summary: Find info about a page.
+            exemple: info:www.theonion.com (Find information about The Onion website.)
+          intext:
+            title: intext
+            summary: The terms must appear in the text of the page.
+            exemple: Dan Shugar intext:Powerlight (Find pages mentioning Dan Shugar where his company, Powerlight, is included in the text of the page, i.e., less likely to be from the corporate website.)
+          intitle:
+            title: intitle
+            summary: The terms must appear in the title of the page.
+            exemple: movies comedy intitle:top ten (Search for pages with the words movie and comedy that include top ten in the title of the page.)
+          inurl:
+            title: inurl
+            summary: The terms must appear in the URL of the page.
+            exemple: pharmaceutical inurl:investor (Search for pages in which the URL contains the word investor.)
+          phonebook:
+            title: phonebook
+            summary:
+            exemple:
+          related:
+            title: related
+            summary: List web pages that are similar or related to the URL.
+            exemple: related:www.healthfinder.gov (Find websites related to the Healthfinder website.)
+          ext:
+            title: ext
+            summary:
+            exemple:
+          location:
+            title: location
+            summary: Find News articles from sources located in the specified location. (Restrict Search to Google News)
+            exemple: queen location:uk (Find British news articles on the Queen.)
+          source:
+            title: source
+            summary: Find News articles from specified sources. (Restrict Search to Google News)
+            exemple: peace source:ha_aretz (Show articles on peace from the Israeli newspaper Ha'aretz.)
+          author:
+            title: author
+            summary: Find Groups messages from the specified author. (Restrict Search to Google Groups)
+            exemple: flying author:Hamish author:Reid (Search for Hamish Reid's articles on flying.)
+          group:
+            title: group
+            summary: Find Groups messages from the specified newsgroup. (Restrict Search to Google Groups)
+            exemple: ivan doig group:rec.arts.books (Search for postings about Ivan Doig in the group rec.arts.books.)
+          insubject:
+            title: insubject
+            summary: Find Groups messages containing crazy quilts in the subject. (Restrict Search to Google Groups)
+            exemple: insubject:"crazy quilts" (Find articles containing crazy quilts in the subject line.)

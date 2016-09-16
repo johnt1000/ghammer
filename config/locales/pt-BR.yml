@@ -19,11 +19,43 @@ pt-BR:
       description: Cria nova nova dork.
       loading: Responda as perguntas a seguir para criar sua dork personalizada...
       question:
+        d_yes: Sim
+        d_no: Não
         title: 'Informe um título para a dork:'
         description: 'Informe a descrição da sua dork:'
         author: 'Informe o nome do autor da dork:'
         category: 'Lista de categorias'
-        category_prompt: 'Qual a categoria da sua dork'
+        category_prompt: 'Qual a categoria da sua dork? '
+        dork: 'Lista de Operadores'
+        dork_prompt: 'Qual operador da sua dork? '
+        dork_title: 'Agora será necessário adiocionar suas dorks...'
+        dork_add_value: 'Informe o valor da dork (sua expressão)...'
+        dork_add_quoted: 'Sua dork (sua expressão) deve ser precisa?'
+        dork_add_quoted_prompt: 'Digite o sua opção: '
+        dork_add_suppress: 'Sua dork deve suprimir algum resultado?'
+        dork_add_suppress_prompt: 'Digite o sua opção: '
+        dork_add_suppress_info: 'Informe os valores que serão suprimidos esparados por espaço: '
+        dork_add_synonyms: 'Sua dork deve filtrar por sinônimos?'
+        dork_add_synonyms_prompt: 'Digite o sua opção: '
+        dork_add_synonyms_info: 'Informe os sinônimos que sua dork vai filtrar: '
+        dork_add: 'Adicionar uma nova dork'
+        dork_save: 'Salvar'
+        dork_quit: 'Sair'
+      categories:
+        vulnerable_files: Arquivos vulneráveis
+        vulnerable_servers: Servidores vulneráveis
+        error_messages: Mensagens de erro
+        network_or_vulnerability_data: Rede ou os dados de vulnerabilidade
+        various_online_devices: Vários dispositivos on-line
+        files_containing_passwords: Arquivos contendo senhas
+        sensitive_online_shopping_info: Sensitive on-line informações de compras
+        files_containing_juicy_info: Arquivos contendo informações suculenta
+        pages_containing_login_portals: Páginas contendo portais de login
+        advisories_and_vulnerabilities: Avisos e vulnerabilidades
+        files_containing_usernames: Arquivos contendo nomes de usuário
+        footholds: Pontos de apoio
+        sensitive_directories: Diretórios sensíveis
+        web_server_detection: Detecção de servidor Web
       expr:
         operator:
           allinanchor:

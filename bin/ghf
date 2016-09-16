@@ -9,6 +9,7 @@ APP_ROOT = File.join(File.dirname(__FILE__), "..")
 $LOAD_PATH.unshift File.join(APP_ROOT, 'config')
 $LOAD_PATH.unshift File.join(APP_ROOT, 'lib')
 $LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer')
+$LOAD_PATH.unshift File.join(APP_ROOT, 'bin', 'thor')
 
 require "boot"
 
@@ -19,7 +20,7 @@ bnr = Banner.new
 puts bnr
 
 module GHFCLI
-  class Dork < Thor
+  class GHDork < Thor
     desc "ls", I18n.t('dork.ls.description')
     def ls()
       puts I18n.t('dork.ls.loading')
@@ -58,39 +59,96 @@ module GHFCLI
     desc "add", I18n.t('dork.add.description')
     def add
       say I18n.t('dork.add.loading')
-      title       = ask("> #{I18n.t('dork.add.question.title')} ") { |q| q.default = "title" }
-      description = ask("> #{I18n.t('dork.add.question.description')} ") { |q| q.default = "description" }
-      author      = ask("> #{I18n.t('dork.add.question.author')} ") { |q| q.default = "author" }
+      dork = Dork.new
+      dork.title       = ask("> #{I18n.t('dork.add.question.title')} ") { |q| q.default = "title" }
+      dork.description = ask("> #{I18n.t('dork.add.question.description')} ") { |q| q.default = "description" }
+      dork.author      = ask("> #{I18n.t('dork.add.question.author')} ") { |q| q.default = "author" }
       
       # category
       category = nil
       choose do |menu|
-        # puts menu.methods.sort
-        menu.header = "> #{I18n.t('dork.add.question.category')}"
+        menu.header = "\n> #{I18n.t('dork.add.question.category')}"
         menu.prompt = "> #{I18n.t('dork.add.question.category_prompt')}"
-        Dork::CATEGORIES.sort.each do |operator|
-          menu.choice(:"#{operator}", I18n.t("dork.expr.operator.#{operator}")) {
-            category = operator
-            cli.say(operator)
+        Dork::CATEGORIES.sort.each do |cat|
+          menu.choice(:"#{I18n.t("dork.add.categories.#{cat.snakecase}")}") {
+            category = cat
           }
-          puts operator
         end
       end
+      
+      exprs = []
+      say("\n#{I18n.t('dork.add.question.dork_title')}")
+      loop do
+        expr = {}
+        choose do |menu|
+          menu.choice(:"#{I18n.t('dork.add.question.dork_add')}", "#{I18n.t('dork.add.question.dork_add')}.") do |command, details|
+            choose do |menu|
+              menu.header = "\n> #{I18n.t('dork.add.question.dork')}"
+              menu.prompt = "> #{I18n.t('dork.add.question.dork_prompt')}"
+                Expr::SEARCH_OPERATORS.sort.each do |operator|
+                  summary = I18n.t("dork.add.expr.operator.#{operator}.summary")
+                  menu.choice(:"#{operator} (#{summary})") {
+                    expr[:type] = operator
+                  }
+              end
+            end
+            
+            expr[:value] = ask("\n> #{I18n.t('dork.add.question.dork_add_value')} ") { |q| q.default = "expression" }
+            
+            say("\n#{I18n.t('dork.add.question.dork_add_quoted')}")
+            choose do |menu|
+              menu.prompt = "> #{I18n.t('dork.add.question.dork_add_quoted_prompt')}"
+              menu.choice(:"#{I18n.t('dork.add.question.d_yes')}") { expr[:quoted] = true }
+              menu.choice(:"#{I18n.t('dork.add.question.d_no')}") { expr[:quoted] = false }
+            end
+            
+            say("\n#{I18n.t('dork.add.question.dork_add_suppress')}")
+            choose do |menu|
+              menu.prompt = "> #{I18n.t('dork.add.question.dork_add_suppress_prompt')}"
+              menu.choice(:"#{I18n.t('dork.add.question.d_yes')}") {
+                suppress = ask("\n> #{I18n.t('dork.add.question.dork_add_suppress_info')}") { |q| q.default = "suppress" }
+                expr[:suppress] = suppress.split(' ')
+              }
+              menu.choice(:"#{I18n.t('dork.add.question.d_no')}") { expr[:suppress] = nil }
+            end
+            
+            say("\n#{I18n.t('dork.add.question.dork_add_synonyms')}")
+            choose do |menu|
+              menu.prompt = "> #{I18n.t('dork.add.question.dork_add_synonyms_prompt')}"
+              menu.choice(:"#{I18n.t('dork.add.question.d_yes')}") {
+                synonyms = ask("\n> #{I18n.t('dork.add.question.dork_add_synonyms_info')}") { |q| q.default = "synonyms" }
+                expr[:synonyms] = synonyms.split(' ')
+              }
+              menu.choice(:"#{I18n.t('dork.add.question.d_no')}") { expr[:synonyms] = nil }
+            end
+            
+            exprs.push(expr)
+          end
+          
+          menu.choice(:"#{I18n.t('dork.add.question.dork_save')}", "#{I18n.t('dork.add.question.dork_save')}.") do |command, details|
+            dork.add_exprs(exprs)
+            puts dork.inspect
+          end
+          menu.choice(:"#{I18n.t('dork.add.question.dork_quit')}", "#{I18n.t('dork.add.question.dork_quit')}.") { exit }
+        end
+      end
+      
+      
             #
-      category = nil
-      cli = HighLine.new
-      choose do |menu|
-        # puts menu.methods.sort
-        menu.header = "> #{I18n.t('dork.add.question.category')}"
-        menu.prompt = "> #{I18n.t('dork.add.question.category_prompt')}"
-        Expr::SEARCH_OPERATORS.sort.each do |operator|
-          menu.choice(:"#{operator}", I18n.t("dork.expr.operator.#{operator}")) {
-            category = operator
-            cli.say(operator)
-          }
-          puts operator
-        end
-      end
+      # category = nil
+#       cli = HighLine.new
+#       choose do |menu|
+#         # puts menu.methods.sort
+#         menu.header = "> #{I18n.t('dork.add.question.category')}"
+#         menu.prompt = "> #{I18n.t('dork.add.question.category_prompt')}"
+#         Expr::SEARCH_OPERATORS.sort.each do |operator|
+#           menu.choice(:"#{operator}", I18n.t("dork.expr.operator.#{operator}")) {
+#             category = operator
+#             cli.say(operator)
+#           }
+#           puts operator
+#         end
+#       end
       #
       # # category
       # category = nil
@@ -106,9 +164,7 @@ module GHFCLI
       #     }
       #   end
       # end
-      puts title
-      puts description
-      puts category
+      puts dork.inspect
     end
   end
 
@@ -171,7 +227,7 @@ module GHFCLI
     class_option :verbose, :type => :boolean, :aliases => "-v"
     
     desc "dork SUBCOMMAND", I18n.t('dork.description')
-    subcommand "dork", Dork
+    subcommand "dork", GHDork
 
     desc "search SUBCOMMAND", "gerencia buscas"
     subcommand "search", Search

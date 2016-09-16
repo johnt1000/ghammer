@@ -3,7 +3,6 @@ verbose: false
 debug: false
 dork:
   directory: dorks
-  categories: Vulnerable Files, Vulnerable Servers, Error Messages, Network or vulnerability data, Various Online Devices, Files containing passwords, Sensitive Online Shopping Info, Files containing juicy info, Pages containing login portals, Advisories and Vulnerabilities, Files containing usernames, Footholds, sensitive Directories, Web Server Detection
 proxy:
   use: false
   hostname: http://localhost
