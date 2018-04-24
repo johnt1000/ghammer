@@ -1,11 +1,11 @@
 # encoding: UTF-8
-require "yaml"
-require './util'
+require File.join(File.dirname(__FILE__), "util")
 
 class Referer < Util
 
   def initialize
-    load_config 'referer'
+    file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'repo', 'referer.yml')
+		load_config_yml file.to_s
     @domain = @config['domain'].values
     @tld = @config['tld'].values
     @file = @config['file'].values

@@ -1,10 +1,10 @@
 # encoding: UTF-8
-require "yaml"
-require './util'
+require File.join(File.dirname(__FILE__), "util")
 
 class Domain < Util
   def initialize
-    load_config 'domain'
+    file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'repo', 'domain.yml')
+		load_config_yml file.to_s
     @url = @config['domain'].values
   end
 

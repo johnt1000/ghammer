@@ -1,15 +1,12 @@
+# encoding: UTF-8
+require "yaml"
+
 class Util
-  attr_accessor :config
+  attr_reader :config
 
-  def load_config name
-    if file_exists? name
-      @config = YAML.load_file(@file.to_s)
+  def load_config_yml file
+    if File.exist? file.to_s
+      @config = YAML.load_file(file.to_s)
     end
-  end
-
-  def file_exists? name
-    file_name ="#{name}.yml"
-    @file = File.join( File.join(File.dirname(__FILE__), '..', '..', 'config', 'repo'), file_name )
-    File.exist?(@file.to_s)
   end
 end
