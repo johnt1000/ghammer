@@ -1,7 +1,6 @@
 # encoding: UTF-8
 
 require "spec_helper"
-require "./lib/ghammer/uri/referer"
 
 describe Referer, 'whenever used' do
   

@@ -111,7 +111,9 @@ APP_ROOT = File.join(File.dirname(__FILE__), "..")
 $LOAD_PATH.unshift File.join(APP_ROOT, 'config')
 $LOAD_PATH.unshift File.join(APP_ROOT, 'lib')
 $LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer')
-$LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer', 'uri')
+$LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer', 'search')
+$LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer', 'proxy')
+$LOAD_PATH.unshift File.join(APP_ROOT, 'lib', 'ghammer', 'dork')
 
 require "boot"
 

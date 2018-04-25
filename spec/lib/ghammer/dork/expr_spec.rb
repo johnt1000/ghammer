@@ -1,7 +1,6 @@
 # encoding: UTF-8
 
 require "spec_helper"
-require "./lib/ghammer/expr"
 
 describe Expr, 'whenever used' do
   it "#initialized" do

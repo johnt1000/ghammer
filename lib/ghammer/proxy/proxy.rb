@@ -1,5 +1,6 @@
 # encoding: UTF-8
-require File.join(File.dirname(__FILE__), "config")
+require File.join(File.dirname(__FILE__), '..', 'config')
+require File.join(File.dirname(__FILE__), '..', 'proxy', 'tor')
 
 class Proxy
   attr_reader :hostname, :port, :env, :name
@@ -14,12 +15,12 @@ class Proxy
 
   # TODO Test
   def running?
-    Tool.new().tor_running?
+    Tor::running?
   end
   
   # TODO Test
   def renew
-    Tool.new().tor_renew
+    Tor::renew
   end
 
   def to_s

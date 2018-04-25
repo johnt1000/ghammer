@@ -1,9 +1,6 @@
 # encoding: UTF-8
 
 require "spec_helper"
-require "./lib/ghammer/expr"
-require "./lib/ghammer/dork"
-require "./lib/ghammer/dorks"
 
 describe Dorks, 'whenever used' do
   before do
