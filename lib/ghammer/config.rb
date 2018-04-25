@@ -5,8 +5,8 @@ class Config < Util
   attr_reader :env, :path
 
   def initialize(options = {})
-    @env = options.fetch(:env, nil)
-    @path = options.fetch(:path, '')
+    @env = options.fetch(:env, 'production')
+    @path = options.fetch(:path, File.join(File.dirname(__FILE__), '..', '..', 'config', "#{@env.to_s}.yml"))
 		load_config_yml @path.to_s
   end
 end

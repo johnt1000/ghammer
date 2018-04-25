@@ -11,6 +11,6 @@ describe Util  do
     @util.load_config_yml(file)
     
     # exercise / verifye
-    expect(@util.config['target']).to match /http:\/\/testphp.vulnweb.com/
+    expect(@util.yml['target']).to match /http:\/\/testphp.vulnweb.com/
   end
 end

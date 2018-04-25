@@ -15,7 +15,7 @@ describe Config, "using config/*.yml file" do
       # exercise / verify
       expect(@config.env).to match /test/
       expect(@config.path).to match /config/
-      expect(@config.config['target']).to match /http:\/\/testphp.vulnweb.com/
+      expect(@config.yml['target']).to match /http:\/\/testphp.vulnweb.com/
     end
   end
 end

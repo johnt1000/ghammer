@@ -1,14 +1,14 @@
 # encoding: UTF-8
 
 class Banner
-  attr_accessor :banner
+  attr_reader :banner
 
   def initialize
-    self.banner = get_banner
+    @banner = get_banner
   end
   
   def to_s
-    self.banner.sample
+    @banner.sample
   end
 
   private

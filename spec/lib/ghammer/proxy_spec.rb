@@ -6,12 +6,13 @@ require "./lib/ghammer/proxy"
 
 describe Proxy, 'whenever used'  do
   before do
-    @opts = { hostname: 'http://localhost', port: 9050 }
-    @proxy = Proxy.new(@opts)
+    @proxy = Proxy.new({env: 'test'})
   end
   
   it "#initialize" do
-    expect(@proxy).to have_attributes(@opts)
+    expect(@proxy.hostname.to_s).to match 'http://localhost'
+    expect(@proxy.port.to_s).to match '9050'
+    expect(@proxy.name.to_s).to match 'tor'
   end
 
   it "#to_s" do

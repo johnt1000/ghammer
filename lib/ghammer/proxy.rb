@@ -1,12 +1,15 @@
 # encoding: UTF-8
+require File.join(File.dirname(__FILE__), "config")
 
 class Proxy
-  attr_accessor :hostname
-  attr_accessor :port
+  attr_reader :hostname, :port, :env, :name
 
   def initialize(options = {})
-    self.hostname = options.fetch(:hostname, CONFIG.proxy_hostname)
-    self.port = options.fetch(:port, CONFIG.proxy_port)
+    @env = options.fetch(:env, 'production')
+    config = Config.new({env: @env})
+    @hostname = options.fetch(:hostname, config.yml['proxy']['hostname'])
+    @port = options.fetch(:port, config.yml['proxy']['port'])
+    @name = options.fetch(:port, config.yml['proxy']['name'])
   end
 
   # TODO Test
@@ -20,6 +23,6 @@ class Proxy
   end
 
   def to_s
-    "#{self.hostname}:#{self.port}"
+    "#{@hostname}:#{@port}"
   end
 end

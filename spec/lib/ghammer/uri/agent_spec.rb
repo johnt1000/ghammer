@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 require "spec_helper"
-require "./lib/ghammer/agent"
+require "./lib/ghammer/uri/agent"
 
 describe Agent, 'whenever used' do
   

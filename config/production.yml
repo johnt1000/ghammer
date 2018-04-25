@@ -4,6 +4,7 @@ debug: false
 dork:
   directory: dorks
 proxy:
+  name: tor
   use: false
   hostname: http://localhost
   port: 9050

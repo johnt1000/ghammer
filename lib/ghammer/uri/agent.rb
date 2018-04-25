@@ -1,13 +1,14 @@
 # encoding: UTF-8
-require File.join(File.dirname(__FILE__), "util")
+require File.join(File.dirname(__FILE__), '..', 'util')
 
 class Agent < Util
+  
 	def initialize
-    file = File.join(File.dirname(__FILE__), '..', '..', 'config', 'repo', 'agent.yml')
+    file = File.join(File.dirname(__FILE__), '..', '..','..', 'config', 'repo', 'agent.yml')
 		load_config_yml file.to_s
-		@browser = @config['browser'].values
-		@os = @config['os'].values
-		@locale = @config['locale'].values
+		@browser = @yml['browser'].values
+		@os = @yml['os'].values
+		@locale = @yml['locale'].values
 	end
 
 	def to_s
