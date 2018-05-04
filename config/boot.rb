@@ -1,5 +1,17 @@
 # encoding: UTF-8
 
+# APP_ROOT = File.join(File.dirname(__FILE__), "..")
+# $LOAD_PATH.unshift File.join(APP_ROOT, 'config')
+# $LOAD_PATH.unshift File.join(APP_ROOT, 'db')
+# $LOAD_PATH.unshift File.join(APP_ROOT, 'app')
+# $LOAD_PATH.unshift File.join(APP_ROOT, 'app', 'dork')
+# $LOAD_PATH.unshift File.join(APP_ROOT, 'app', 'proxy')
+# $LOAD_PATH.unshift File.join(APP_ROOT, 'app', 'search')
+
+# gems
+require "rubygems"
+require "thor"
+require 'terminal-table'
 require 'i18n'
 require 'yaml'
 require 'json'
@@ -7,19 +19,39 @@ require 'uri'
 require 'highline'
 require 'highline/import'
 require 'curb'
-require 'config'
-require 'expr'
-require 'dork'
-require 'dorks'
-require 'agent'
-require 'referer'
-require 'domain'
-require 'tool'
-require 'proxy'
-require 'query'
-require 'search'
-require 'banner'
-require 'ghammer'
+require 'sqlite3'
+require 'active_record'
+
+# Configure ActiveRecord
+env    = ENV['ENV'] || 'development'
+root   = File.expand_path '..', __FILE__
+config = YAML.load(File.read(File.join(root, 'database.yml')))
+
+ActiveRecord::Base.configurations = config
+ActiveRecord::Base.establish_connection env.to_sym
+ActiveRecord::Base.logger = Logger.new(File.open('./log/database.log', 'a'))
+
+Dir.glob("../models/*.rb").sort.each do |file|
+  require file
+  puts file
+end
+
+Dir.glob("../app/*.rb").sort.each do |file|
+  require file
+end
+
+Dir.glob("./app/dork/*.rb").sort.each do |file|
+  require file
+end
+
+Dir.glob("../app/proxy/*.rb").sort.each do |file|
+  require file
+end
+
+Dir.glob("../app/search/*.rb").sort.each do |file|
+  require file
+end
+
 
 module GHF
   class App

@@ -1,5 +1,5 @@
 target: http://testphp.vulnweb.com
-verbose: true
+verbose: false
 debug: false
 proxy:
   name: tor
